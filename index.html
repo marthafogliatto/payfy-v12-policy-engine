@@ -2733,6 +2733,325 @@
             .agent-status-bar { flex-direction: column; align-items: flex-start; gap: var(--spacing-sm); }
             .nav-tabs { flex-wrap: wrap; }
         }
+
+        /* ═══════════════════════════════════════════════
+           V12 Fase 3: Wizard de Nova Regra
+           ═══════════════════════════════════════════════ */
+
+        /* Trigger button */
+        .wizard-trigger-btn {
+            font-size: 12px; font-weight: 600;
+            color: white; background: var(--primary-orange);
+            border: none; border-radius: var(--radius-md);
+            padding: 8px 16px; cursor: pointer;
+            transition: background 0.15s;
+        }
+        .wizard-trigger-btn:hover { background: var(--primary-orange-dark); }
+
+        /* Overlay */
+        .wizard-overlay {
+            display: none; position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.4);
+            z-index: 300; align-items: flex-start;
+            justify-content: center; padding: 40px 20px;
+        }
+        .wizard-overlay.open { display: flex; }
+
+        /* Modal */
+        .wizard-modal {
+            background: var(--white); border-radius: var(--radius-xl);
+            width: 680px; max-width: 100%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+            overflow: hidden; max-height: 90vh;
+            display: flex; flex-direction: column;
+        }
+
+        /* Modal header */
+        .wizard-modal-header {
+            display: flex; align-items: center;
+            justify-content: space-between;
+            padding: 20px 24px 0;
+        }
+        .wizard-modal-title {
+            font-size: 18px; font-weight: 700;
+            color: var(--gray-900);
+        }
+        .wizard-modal-close {
+            width: 32px; height: 32px;
+            border: none; background: var(--gray-100);
+            border-radius: var(--radius-md); cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            color: var(--gray-400); font-size: 18px;
+        }
+        .wizard-modal-close:hover { background: var(--gray-200); }
+
+        /* Stepper */
+        .wizard-stepper {
+            display: flex; align-items: center;
+            padding: 20px 24px; gap: 0;
+        }
+        .wizard-step-item {
+            display: flex; align-items: center;
+            gap: 8px; cursor: pointer;
+        }
+        .wizard-step-circle {
+            width: 28px; height: 28px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 12px; font-weight: 600; flex-shrink: 0;
+            transition: all 0.2s;
+        }
+        .wizard-step-circle.active { background: var(--primary-orange); color: var(--white); }
+        .wizard-step-circle.done { background: #16A34A; color: var(--white); }
+        .wizard-step-circle.pending { background: var(--gray-100); color: var(--gray-400); }
+        .wizard-step-label { font-size: 12px; font-weight: 500; color: var(--gray-400); }
+        .wizard-step-item.active .wizard-step-label { color: var(--primary-orange); font-weight: 600; }
+        .wizard-step-item.done .wizard-step-label { color: #16A34A; }
+        .wizard-step-connector { flex: 1; height: 1px; background: var(--gray-200); margin: 0 8px; }
+        .wizard-step-connector.done { background: #16A34A; }
+
+        /* Step content */
+        .wizard-step-content {
+            display: none;
+            padding: 0 24px 24px;
+            overflow-y: auto;
+            flex: 1;
+        }
+        .wizard-step-content.active { display: block; }
+
+        /* Form elements */
+        .wz-form-group { margin-bottom: 16px; }
+        .wz-form-label {
+            display: block; font-size: 12px; font-weight: 600;
+            color: var(--gray-600); margin-bottom: 6px;
+        }
+        .wz-form-hint {
+            font-size: 11px; color: var(--gray-400); margin-bottom: 6px;
+        }
+        .wz-form-input {
+            width: 100%; padding: 10px 12px;
+            border: 1px solid var(--gray-200); border-radius: var(--radius-md);
+            font-size: 13px; font-family: 'Inter', sans-serif;
+            color: var(--gray-700); outline: none;
+            transition: border-color 0.2s;
+        }
+        .wz-form-input:focus { border-color: var(--primary-orange); }
+        .wz-form-input::placeholder { color: var(--gray-300); }
+        .wz-form-select {
+            width: 100%; padding: 10px 12px;
+            border: 1px solid var(--gray-200); border-radius: var(--radius-md);
+            font-size: 13px; font-family: 'Inter', sans-serif;
+            color: var(--gray-700); outline: none;
+            background: var(--white); cursor: pointer;
+        }
+
+        /* Tags */
+        .wz-tags-row { display: flex; gap: 8px; flex-wrap: wrap; }
+        .wz-tag {
+            padding: 6px 14px; border: 1px solid var(--gray-200);
+            border-radius: 20px; font-size: 12px; font-weight: 500;
+            color: var(--gray-500); cursor: pointer;
+            transition: all 0.15s; background: var(--white);
+        }
+        .wz-tag:hover { border-color: var(--primary-orange); color: var(--primary-orange); }
+        .wz-tag.selected {
+            background: var(--primary-orange-light); border-color: var(--primary-orange);
+            color: var(--primary-orange); font-weight: 600;
+        }
+
+        /* Conditions builder */
+        .wz-condition-row {
+            display: flex; gap: 8px; align-items: center; margin-bottom: 8px;
+        }
+        .wz-condition-row select, .wz-condition-row input {
+            padding: 8px 10px; border: 1px solid var(--gray-200);
+            border-radius: var(--radius-md); font-size: 12px;
+            font-family: 'Inter', sans-serif; outline: none;
+            color: var(--gray-700);
+        }
+        .wz-condition-row select { width: 140px; background: var(--white); }
+        .wz-condition-row input { flex: 1; }
+        .wz-condition-row input:focus, .wz-condition-row select:focus { border-color: var(--primary-orange); }
+        .wz-condition-remove {
+            width: 28px; height: 28px; border: none;
+            background: var(--gray-100); border-radius: var(--radius-sm);
+            cursor: pointer; color: var(--gray-400); font-size: 16px;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .wz-condition-remove:hover { background: var(--danger-red-light); color: var(--primary-orange); }
+        .wz-add-condition-btn {
+            font-size: 12px; font-weight: 500; color: var(--primary-orange);
+            background: none; border: 1px dashed var(--primary-orange);
+            padding: 6px 14px; border-radius: var(--radius-md);
+            cursor: pointer; margin-top: 4px;
+        }
+        .wz-add-condition-btn:hover { background: var(--primary-orange-light); }
+
+        /* Template selector */
+        .wz-template-grid { display: flex; flex-direction: column; gap: 8px; }
+        .wz-template-option {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 14px 16px; border: 2px solid var(--gray-200);
+            border-radius: var(--radius-lg); cursor: pointer;
+            transition: all 0.15s; background: var(--white);
+        }
+        .wz-template-option:hover { border-color: var(--gray-300); background: var(--gray-50); }
+        .wz-template-option.selected { border-color: var(--primary-orange); background: var(--primary-orange-light); }
+        .wz-template-option-left { display: flex; align-items: center; gap: 12px; }
+        .wz-template-radio {
+            width: 18px; height: 18px; border: 2px solid var(--gray-300);
+            border-radius: 50%; display: flex; align-items: center;
+            justify-content: center; flex-shrink: 0; transition: all 0.15s;
+        }
+        .wz-template-option.selected .wz-template-radio { border-color: var(--primary-orange); }
+        .wz-template-radio-dot {
+            width: 8px; height: 8px; background: var(--primary-orange);
+            border-radius: 50%; display: none;
+        }
+        .wz-template-option.selected .wz-template-radio-dot { display: block; }
+        .wz-template-info h4 { font-size: 13px; font-weight: 600; color: var(--gray-800); margin-bottom: 2px; }
+        .wz-template-info p { font-size: 11px; color: var(--gray-400); }
+        .wz-template-option-right { display: flex; align-items: center; gap: 8px; }
+        .wz-template-count { font-size: 11px; color: var(--gray-400); }
+        .wz-template-preview-btn {
+            font-size: 11px; font-weight: 500; color: var(--primary-orange);
+            background: none; border: none; cursor: pointer; padding: 2px 4px;
+        }
+        .wz-template-preview-btn:hover { text-decoration: underline; }
+
+        /* Preview inline */
+        .wz-template-preview {
+            display: none; margin-top: 10px; padding: 12px 14px;
+            background: var(--gray-50); border: 1px solid var(--gray-200);
+            border-radius: var(--radius-md); margin-left: 42px;
+        }
+        .wz-template-preview.open { display: block; }
+        .wz-template-preview-title {
+            font-size: 11px; font-weight: 600; color: var(--gray-400);
+            text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px;
+        }
+        .wz-preview-field {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 4px 0; font-size: 12px;
+        }
+        .wz-preview-field-left { display: flex; align-items: center; gap: 6px; }
+        .wz-preview-dot { width: 5px; height: 5px; border-radius: 50%; }
+        .wz-preview-dot.req { background: var(--info-blue); }
+        .wz-preview-dot.opt { background: var(--gray-300); }
+        .wz-preview-field-name { color: var(--gray-600); }
+        .wz-preview-field-val { font-size: 11px; color: var(--gray-400); }
+        .wz-preview-separator { border: none; border-top: 1px dashed var(--gray-200); margin: 6px 0; }
+
+        /* Flow preview mini steps */
+        .wz-flow-steps-preview { display: flex; align-items: center; gap: 0; margin: 4px 0 8px; }
+        .wz-flow-step-mini {
+            display: flex; align-items: center; gap: 4px;
+            padding: 6px 10px; border-radius: var(--radius-md);
+            font-size: 11px; font-weight: 500;
+        }
+        .wz-flow-step-mini.agent { background: var(--primary-orange-light); color: var(--primary-orange); border: 1px solid #F5D0B8; }
+        .wz-flow-step-mini.human { background: var(--success-green-light); color: var(--success-green); border: 1px solid #C0DCC8; }
+        .wz-flow-step-mini.auto { background: var(--info-blue-light); color: var(--info-blue); border: 1px solid #C0D5F0; }
+        .wz-flow-step-mini.fallback { background: var(--gray-50); color: var(--gray-400); border: 1px dashed var(--gray-300); }
+        .wz-flow-arrow-mini { margin: 0 4px; color: var(--gray-300); font-size: 14px; }
+        .wz-flow-meta-preview { font-size: 11px; color: var(--gray-400); display: flex; gap: 12px; }
+
+        /* Create new template card */
+        .wz-create-new-template {
+            display: flex; align-items: center; gap: 6px;
+            padding: 12px 16px; border: 2px dashed var(--gray-200);
+            border-radius: var(--radius-lg); cursor: pointer;
+            font-size: 12px; font-weight: 500; color: var(--gray-400);
+            transition: all 0.15s;
+        }
+        .wz-create-new-template:hover { border-color: var(--primary-orange); color: var(--primary-orange); }
+
+        /* Section label */
+        .wz-section-label {
+            font-size: 11px; font-weight: 600; color: var(--gray-400);
+            text-transform: uppercase; letter-spacing: 0.5px;
+            margin-bottom: 10px; margin-top: 4px;
+        }
+
+        /* Review grid */
+        .wz-review-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+        }
+        .wz-review-block {
+            border: 1px solid var(--gray-200); border-radius: var(--radius-lg); overflow: hidden;
+        }
+        .wz-review-block-header {
+            padding: 10px 14px; font-size: 11px; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 0.5px;
+            display: flex; align-items: center; gap: 6px;
+        }
+        .wz-review-block-header.req { background: var(--info-blue-light); color: var(--info-blue); }
+        .wz-review-block-header.flow { background: var(--success-green-light); color: var(--success-green); }
+        .wz-review-block-header.trigger { background: var(--gray-100); color: var(--gray-600); }
+        .wz-review-block-header.actions { background: var(--warning-yellow-light); color: var(--amber-600); }
+        .wz-review-block-body { padding: 12px 14px; }
+        .wz-review-item {
+            font-size: 12px; color: var(--gray-600); padding: 3px 0;
+            display: flex; align-items: center; gap: 6px;
+        }
+        .wz-review-template-name {
+            font-weight: 600; color: var(--gray-700);
+            display: flex; align-items: center; gap: 4px;
+        }
+        .wz-review-full { grid-column: 1 / -1; }
+
+        /* Action checks */
+        .wz-action-checks { display: flex; flex-wrap: wrap; gap: 8px; }
+        .wz-action-check {
+            display: flex; align-items: center; gap: 6px;
+            padding: 6px 12px; border: 1px solid var(--gray-200);
+            border-radius: var(--radius-md); font-size: 12px;
+            color: var(--gray-600); cursor: pointer; transition: all 0.15s;
+        }
+        .wz-action-check:hover { border-color: var(--primary-orange); }
+        .wz-action-check.checked { border-color: var(--primary-orange); background: var(--primary-orange-light); color: var(--primary-orange); }
+        .wz-action-check input { display: none; }
+        .wz-action-checkbox {
+            width: 14px; height: 14px; border: 1.5px solid var(--gray-300);
+            border-radius: 3px; display: flex; align-items: center;
+            justify-content: center; flex-shrink: 0; transition: all 0.15s;
+        }
+        .wz-action-check.checked .wz-action-checkbox { border-color: var(--primary-orange); background: var(--primary-orange); }
+        .wz-action-checkmark { display: none; color: var(--white); font-size: 10px; font-weight: 700; }
+        .wz-action-check.checked .wz-action-checkmark { display: block; }
+
+        /* Impact row */
+        .wz-impact-row {
+            display: flex; gap: 16px; margin-top: 16px;
+            padding: 14px 16px; background: var(--gray-50);
+            border: 1px solid var(--gray-200); border-radius: var(--radius-lg);
+        }
+        .wz-impact-item { text-align: center; flex: 1; }
+        .wz-impact-value { font-size: 16px; font-weight: 700; }
+        .wz-impact-value.positive { color: #16A34A; }
+        .wz-impact-value.negative { color: var(--primary-orange); }
+        .wz-impact-value.neutral { color: var(--gray-600); }
+        .wz-impact-label { font-size: 11px; color: var(--gray-400); margin-top: 2px; }
+
+        /* Footer */
+        .wizard-footer {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 16px 24px; border-top: 1px solid var(--gray-100);
+        }
+        .wizard-footer .wz-btn {
+            padding: 10px 20px; border-radius: var(--radius-md);
+            font-size: 13px; font-weight: 600; font-family: 'Inter', sans-serif;
+            cursor: pointer; transition: all 0.15s;
+        }
+        .wizard-footer .wz-btn-secondary {
+            background: var(--white); border: 1px solid var(--gray-200); color: var(--gray-600);
+        }
+        .wizard-footer .wz-btn-secondary:hover { background: var(--gray-50); }
+        .wizard-footer .wz-btn-primary {
+            background: var(--primary-orange); border: 1px solid var(--primary-orange); color: var(--white);
+        }
+        .wizard-footer .wz-btn-primary:hover { background: var(--primary-orange-dark); }
+        .wizard-footer-right { display: flex; gap: 8px; }
     </style>
 </head>
 <body>
@@ -2810,7 +3129,10 @@
             <div class="spend-controls">
                 <div style="display: flex; justify-content: space-between; align-items: center;">
                     <h2 class="section-title">Controles de Spend</h2>
-                    <span style="font-size: 13px; color: var(--gray-500);">5 controles de spend</span>
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <span style="font-size: 13px; color: var(--gray-500);">5 controles de spend</span>
+                        <button class="wizard-trigger-btn" onclick="openWizard()">+ Nova Regra</button>
+                    </div>
                 </div>
 
                 <!-- Anchor Navigation -->
@@ -4571,6 +4893,352 @@
         </div>
     </div>
 
+    <!-- ═══════════════════════════════════════════════
+         V12 Fase 3: Wizard de Nova Regra (Modal)
+         ═══════════════════════════════════════════════ -->
+    <div class="wizard-overlay" id="wizardOverlay">
+        <div class="wizard-modal">
+            <!-- Modal Header -->
+            <div class="wizard-modal-header">
+                <span class="wizard-modal-title">Nova Regra</span>
+                <button class="wizard-modal-close" onclick="closeWizard()">×</button>
+            </div>
+
+            <!-- Stepper -->
+            <div class="wizard-stepper" id="wizardStepper">
+                <div class="wizard-step-item active" data-step="1" onclick="goToWizardStep(1)">
+                    <div class="wizard-step-circle active">1</div>
+                    <span class="wizard-step-label">Objetivo</span>
+                </div>
+                <div class="wizard-step-connector"></div>
+                <div class="wizard-step-item" data-step="2" onclick="goToWizardStep(2)">
+                    <div class="wizard-step-circle pending">2</div>
+                    <span class="wizard-step-label">Condições</span>
+                </div>
+                <div class="wizard-step-connector"></div>
+                <div class="wizard-step-item" data-step="3" onclick="goToWizardStep(3)">
+                    <div class="wizard-step-circle pending">3</div>
+                    <span class="wizard-step-label">Requisitos</span>
+                </div>
+                <div class="wizard-step-connector"></div>
+                <div class="wizard-step-item" data-step="4" onclick="goToWizardStep(4)">
+                    <div class="wizard-step-circle pending">4</div>
+                    <span class="wizard-step-label">Aprovação</span>
+                </div>
+                <div class="wizard-step-connector"></div>
+                <div class="wizard-step-item" data-step="5" onclick="goToWizardStep(5)">
+                    <div class="wizard-step-circle pending">5</div>
+                    <span class="wizard-step-label">Revisar</span>
+                </div>
+            </div>
+
+            <!-- ══════════ STEP 1: Objetivo ══════════ -->
+            <div class="wizard-step-content active" id="wizardStep1">
+                <div class="wz-form-group">
+                    <label class="wz-form-label">Nome da regra</label>
+                    <input class="wz-form-input" type="text" id="wzRuleName" placeholder="Ex: Cartão físico acima de R$50" />
+                </div>
+                <div class="wz-form-group">
+                    <label class="wz-form-label">Objetivo</label>
+                    <div class="wz-form-hint">Define o propósito desta regra para o Agente de Política e auditoria.</div>
+                    <div class="wz-tags-row" id="wzObjectiveTags">
+                        <span class="wz-tag" onclick="selectWzTag(this)">Compliance Fiscal</span>
+                        <span class="wz-tag" onclick="selectWzTag(this)">Controle de Custos</span>
+                        <span class="wz-tag" onclick="selectWzTag(this)">Anti-fraude</span>
+                        <span class="wz-tag" onclick="selectWzTag(this)">Auditoria</span>
+                    </div>
+                </div>
+                <div class="wz-form-group">
+                    <label class="wz-form-label">Descrição</label>
+                    <textarea class="wz-form-input" id="wzDescription" rows="3" placeholder="Descreva o objetivo desta regra..." style="resize: vertical;"></textarea>
+                </div>
+                <div class="wz-form-group">
+                    <label class="wz-form-label">Gatilho</label>
+                    <select class="wz-form-select" id="wzTrigger">
+                        <option value="">Selecione o gatilho...</option>
+                        <option value="Quando solicitação de cartão é criada">Quando solicitação de cartão é criada</option>
+                        <option value="Quando solicitação de reembolso é criada">Quando solicitação de reembolso é criada</option>
+                        <option value="Quando despesa é registrada">Quando despesa é registrada</option>
+                        <option value="Quando viagem é solicitada">Quando viagem é solicitada</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- ══════════ STEP 2: Condições ══════════ -->
+            <div class="wizard-step-content" id="wizardStep2">
+                <div class="wz-section-label">Quando a regra deve disparar?</div>
+                <div class="wz-form-hint" style="margin-bottom:12px; margin-top:-6px;">Define os critérios que ativam esta regra. Ex: valor acima de X, categoria específica.</div>
+                <div id="wzConditionsList">
+                    <div class="wz-condition-row">
+                        <select>
+                            <option>Valor total</option><option>Categoria</option><option>Tipo de solicitação</option>
+                            <option>Fornecedor</option><option>País de origem</option><option>Centro de custo</option><option>Moeda</option>
+                        </select>
+                        <select>
+                            <option>≥</option><option>=</option><option>≠</option><option>></option><option><</option><option>≤</option><option>contém</option>
+                        </select>
+                        <input type="text" value="R$ 2.000" placeholder="Valor..." />
+                        <button class="wz-condition-remove" onclick="removeWzCondition(this)">×</button>
+                    </div>
+                </div>
+                <button class="wz-add-condition-btn" onclick="addWzCondition()">+ Adicionar condição</button>
+            </div>
+
+            <!-- ══════════ STEP 3: Conjunto de Requisitos ══════════ -->
+            <div class="wizard-step-content" id="wizardStep3">
+                <div class="wz-section-label">O que o colaborador precisa preencher?</div>
+                <div class="wz-form-hint" style="margin-bottom:12px; margin-top:-6px;">Selecione o conjunto que define quais campos são obrigatórios e opcionais.</div>
+
+                <div class="wz-template-grid" id="wzReqTemplateGrid">
+                    <!-- Fiscal Brasil -->
+                    <div class="wz-template-option selected" onclick="selectWzTemplate(this, 'req')">
+                        <div class="wz-template-option-left">
+                            <div class="wz-template-radio"><div class="wz-template-radio-dot"></div></div>
+                            <div class="wz-template-info">
+                                <h4>Fiscal Brasil</h4>
+                                <p>4 obrigatórios · 2 opcionais · Despesas de cartão e reembolsos</p>
+                            </div>
+                        </div>
+                        <div class="wz-template-option-right">
+                            <span class="wz-template-count">Usado em 3 regras</span>
+                            <button class="wz-template-preview-btn" onclick="event.stopPropagation(); toggleWzPreview(this)">Ver campos ▾</button>
+                        </div>
+                    </div>
+                    <div class="wz-template-preview" id="wzPreviewFiscalBr">
+                        <div class="wz-template-preview-title">Campos obrigatórios</div>
+                        <div class="wz-preview-field"><div class="wz-preview-field-left"><span class="wz-preview-dot req"></span><span class="wz-preview-field-name">Comprovante fiscal (NF-e)</span></div><span class="wz-preview-field-val">OCR + CNPJ</span></div>
+                        <div class="wz-preview-field"><div class="wz-preview-field-left"><span class="wz-preview-dot req"></span><span class="wz-preview-field-name">Categoria</span></div><span class="wz-preview-field-val">Plano de contas ERP</span></div>
+                        <div class="wz-preview-field"><div class="wz-preview-field-left"><span class="wz-preview-dot req"></span><span class="wz-preview-field-name">Centro de custo</span></div><span class="wz-preview-field-val">Cadastro ativo</span></div>
+                        <div class="wz-preview-field"><div class="wz-preview-field-left"><span class="wz-preview-dot req"></span><span class="wz-preview-field-name">CNPJ do fornecedor</span></div><span class="wz-preview-field-val">Receita Federal</span></div>
+                        <hr class="wz-preview-separator">
+                        <div class="wz-template-preview-title">Campos opcionais</div>
+                        <div class="wz-preview-field"><div class="wz-preview-field-left"><span class="wz-preview-dot opt"></span><span class="wz-preview-field-name">Projeto</span></div><span class="wz-preview-field-val">Código ativo no ERP</span></div>
+                        <div class="wz-preview-field"><div class="wz-preview-field-left"><span class="wz-preview-dot opt"></span><span class="wz-preview-field-name">Observações</span></div><span class="wz-preview-field-val">Texto livre</span></div>
+                    </div>
+
+                    <!-- Viagem Corporativa -->
+                    <div class="wz-template-option" onclick="selectWzTemplate(this, 'req')">
+                        <div class="wz-template-option-left">
+                            <div class="wz-template-radio"><div class="wz-template-radio-dot"></div></div>
+                            <div class="wz-template-info">
+                                <h4>Viagem Corporativa</h4>
+                                <p>3 obrigatórios · 2 opcionais · Solicitações de viagem e hospedagem</p>
+                            </div>
+                        </div>
+                        <div class="wz-template-option-right">
+                            <span class="wz-template-count">Usado em 1 regra</span>
+                            <button class="wz-template-preview-btn" onclick="event.stopPropagation(); toggleWzPreview(this)">Ver campos ▾</button>
+                        </div>
+                    </div>
+                    <div class="wz-template-preview">
+                        <div class="wz-template-preview-title">Campos obrigatórios</div>
+                        <div class="wz-preview-field"><div class="wz-preview-field-left"><span class="wz-preview-dot req"></span><span class="wz-preview-field-name">Reserva confirmada</span></div><span class="wz-preview-field-val">Upload</span></div>
+                        <div class="wz-preview-field"><div class="wz-preview-field-left"><span class="wz-preview-dot req"></span><span class="wz-preview-field-name">Justificativa de viagem</span></div><span class="wz-preview-field-val">Texto</span></div>
+                        <div class="wz-preview-field"><div class="wz-preview-field-left"><span class="wz-preview-dot req"></span><span class="wz-preview-field-name">Aprovação prévia</span></div><span class="wz-preview-field-val">Checkbox</span></div>
+                        <hr class="wz-preview-separator">
+                        <div class="wz-template-preview-title">Campos opcionais</div>
+                        <div class="wz-preview-field"><div class="wz-preview-field-left"><span class="wz-preview-dot opt"></span><span class="wz-preview-field-name">Código do projeto</span></div><span class="wz-preview-field-val">ERP</span></div>
+                        <div class="wz-preview-field"><div class="wz-preview-field-left"><span class="wz-preview-dot opt"></span><span class="wz-preview-field-name">Observações</span></div><span class="wz-preview-field-val">Texto livre</span></div>
+                    </div>
+
+                    <!-- Reembolso Padrão -->
+                    <div class="wz-template-option" onclick="selectWzTemplate(this, 'req')">
+                        <div class="wz-template-option-left">
+                            <div class="wz-template-radio"><div class="wz-template-radio-dot"></div></div>
+                            <div class="wz-template-info">
+                                <h4>Reembolso Padrão</h4>
+                                <p>3 obrigatórios · 1 opcional · Reembolsos pessoais até R$500</p>
+                            </div>
+                        </div>
+                        <div class="wz-template-option-right">
+                            <span class="wz-template-count">Usado em 1 regra</span>
+                            <button class="wz-template-preview-btn" onclick="event.stopPropagation(); toggleWzPreview(this)">Ver campos ▾</button>
+                        </div>
+                    </div>
+                    <div class="wz-template-preview">
+                        <div class="wz-template-preview-title">Campos obrigatórios</div>
+                        <div class="wz-preview-field"><div class="wz-preview-field-left"><span class="wz-preview-dot req"></span><span class="wz-preview-field-name">Comprovante fiscal</span></div><span class="wz-preview-field-val">OCR</span></div>
+                        <div class="wz-preview-field"><div class="wz-preview-field-left"><span class="wz-preview-dot req"></span><span class="wz-preview-field-name">Justificativa</span></div><span class="wz-preview-field-val">Texto</span></div>
+                        <div class="wz-preview-field"><div class="wz-preview-field-left"><span class="wz-preview-dot req"></span><span class="wz-preview-field-name">Categoria</span></div><span class="wz-preview-field-val">Plano de contas ERP</span></div>
+                        <hr class="wz-preview-separator">
+                        <div class="wz-template-preview-title">Campos opcionais</div>
+                        <div class="wz-preview-field"><div class="wz-preview-field-left"><span class="wz-preview-dot opt"></span><span class="wz-preview-field-name">Observações</span></div><span class="wz-preview-field-val">Texto livre</span></div>
+                    </div>
+
+                    <!-- + Criar novo conjunto -->
+                    <div class="wz-create-new-template" onclick="closeWizard(); openDrawer('req');">
+                        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                        Criar novo Conjunto de Requisitos
+                    </div>
+                </div>
+            </div>
+
+            <!-- ══════════ STEP 4: Fluxo de Aprovação ══════════ -->
+            <div class="wizard-step-content" id="wizardStep4">
+                <div class="wz-section-label">Quem aprova?</div>
+                <div class="wz-form-hint" style="margin-bottom:12px; margin-top:-6px;">Selecione o fluxo de aprovação que será aplicado quando esta regra for ativada.</div>
+
+                <div class="wz-template-grid" id="wzFlowTemplateGrid">
+                    <!-- Agent + Gestor -->
+                    <div class="wz-template-option selected" onclick="selectWzTemplate(this, 'flow')">
+                        <div class="wz-template-option-left">
+                            <div class="wz-template-radio"><div class="wz-template-radio-dot"></div></div>
+                            <div class="wz-template-info">
+                                <h4>Agent + Gestor</h4>
+                                <p>Híbrido · Agent decide ou escala para gestor direto</p>
+                            </div>
+                        </div>
+                        <div class="wz-template-option-right">
+                            <span class="wz-template-count">Usado em 2 regras</span>
+                            <button class="wz-template-preview-btn" onclick="event.stopPropagation(); toggleWzPreview(this)">Ver fluxo ▾</button>
+                        </div>
+                    </div>
+                    <div class="wz-template-preview" id="wzPreviewAgentGestor">
+                        <div class="wz-flow-steps-preview">
+                            <span class="wz-flow-step-mini agent">
+                                <svg width="10" height="10" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="3" stroke="currentColor" stroke-width="1.5"/><path d="M8 2v2M8 12v2M2 8h2M12 8h2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                                Agente de Política
+                            </span>
+                            <span class="wz-flow-arrow-mini">→</span>
+                            <span class="wz-flow-step-mini fallback">
+                                <svg width="10" height="10" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="6" r="3" stroke="currentColor" stroke-width="1.5"/><path d="M3 14c0-2.8 2.2-5 5-5s5 2.2 5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                                Gestor direto
+                            </span>
+                        </div>
+                        <div class="wz-flow-meta-preview">
+                            <span>SLA: <strong>24h</strong></span>
+                            <span>Confiança mín: <strong>90%</strong></span>
+                            <span>Fallback: <strong>Gestor direto</strong></span>
+                        </div>
+                    </div>
+
+                    <!-- Dupla Aprovação -->
+                    <div class="wz-template-option" onclick="selectWzTemplate(this, 'flow')">
+                        <div class="wz-template-option-left">
+                            <div class="wz-template-radio"><div class="wz-template-radio-dot"></div></div>
+                            <div class="wz-template-info">
+                                <h4>Dupla Aprovação</h4>
+                                <p>Sequencial · Gestor direto → Financeiro</p>
+                            </div>
+                        </div>
+                        <div class="wz-template-option-right">
+                            <span class="wz-template-count">Usado em 1 regra</span>
+                            <button class="wz-template-preview-btn" onclick="event.stopPropagation(); toggleWzPreview(this)">Ver fluxo ▾</button>
+                        </div>
+                    </div>
+                    <div class="wz-template-preview">
+                        <div class="wz-flow-steps-preview">
+                            <span class="wz-flow-step-mini human">
+                                <svg width="10" height="10" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="6" r="3" stroke="currentColor" stroke-width="1.5"/><path d="M3 14c0-2.8 2.2-5 5-5s5 2.2 5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                                Gestor direto
+                            </span>
+                            <span class="wz-flow-arrow-mini">→</span>
+                            <span class="wz-flow-step-mini human">
+                                <svg width="10" height="10" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="6" r="3" stroke="currentColor" stroke-width="1.5"/><path d="M3 14c0-2.8 2.2-5 5-5s5 2.2 5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                                Financeiro
+                            </span>
+                        </div>
+                        <div class="wz-flow-meta-preview">
+                            <span>SLA: <strong>48h</strong></span>
+                            <span>Fallback: <strong>Comitê financeiro</strong></span>
+                        </div>
+                    </div>
+
+                    <!-- Auto-aprovação -->
+                    <div class="wz-template-option" onclick="selectWzTemplate(this, 'flow')">
+                        <div class="wz-template-option-left">
+                            <div class="wz-template-radio"><div class="wz-template-radio-dot"></div></div>
+                            <div class="wz-template-info">
+                                <h4>Auto-aprovação</h4>
+                                <p>Automático · Sem intervenção humana</p>
+                            </div>
+                        </div>
+                        <div class="wz-template-option-right">
+                            <span class="wz-template-count">Usado em 2 regras</span>
+                            <button class="wz-template-preview-btn" onclick="event.stopPropagation(); toggleWzPreview(this)">Ver fluxo ▾</button>
+                        </div>
+                    </div>
+                    <div class="wz-template-preview">
+                        <div class="wz-flow-steps-preview">
+                            <span class="wz-flow-step-mini auto">
+                                <svg width="10" height="10" viewBox="0 0 16 16" fill="none"><path d="M3 8l4 4 6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                Automática
+                            </span>
+                        </div>
+                        <div class="wz-flow-meta-preview">
+                            <span>Tempo: <strong>&lt;1 min</strong></span>
+                            <span>Sem intervenção humana</span>
+                        </div>
+                    </div>
+
+                    <!-- Gestor Direto -->
+                    <div class="wz-template-option" onclick="selectWzTemplate(this, 'flow')">
+                        <div class="wz-template-option-left">
+                            <div class="wz-template-radio"><div class="wz-template-radio-dot"></div></div>
+                            <div class="wz-template-info">
+                                <h4>Gestor Direto</h4>
+                                <p>Simples · Apenas gestor direto aprova</p>
+                            </div>
+                        </div>
+                        <div class="wz-template-option-right">
+                            <span class="wz-template-count">Disponível</span>
+                            <button class="wz-template-preview-btn" onclick="event.stopPropagation(); toggleWzPreview(this)">Ver fluxo ▾</button>
+                        </div>
+                    </div>
+                    <div class="wz-template-preview">
+                        <div class="wz-flow-steps-preview">
+                            <span class="wz-flow-step-mini human">
+                                <svg width="10" height="10" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="6" r="3" stroke="currentColor" stroke-width="1.5"/><path d="M3 14c0-2.8 2.2-5 5-5s5 2.2 5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                                Gestor direto
+                            </span>
+                        </div>
+                        <div class="wz-flow-meta-preview">
+                            <span>Modo: <strong>Simples</strong></span>
+                            <span>Aprovação única</span>
+                        </div>
+                    </div>
+
+                    <!-- + Criar novo fluxo -->
+                    <div class="wz-create-new-template" onclick="closeWizard(); openDrawer('flow');">
+                        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                        Criar novo Fluxo de Aprovação
+                    </div>
+                </div>
+            </div>
+
+            <!-- ══════════ STEP 5: Revisar ══════════ -->
+            <div class="wizard-step-content" id="wizardStep5">
+                <div class="wz-section-label">Confira os detalhes antes de salvar</div>
+                <div class="wz-review-grid" id="wzReviewGrid">
+                    <!-- Populated dynamically by updateWzReview() -->
+                </div>
+                <div class="wz-impact-row">
+                    <div class="wz-impact-item">
+                        <div class="wz-impact-value neutral">~120</div>
+                        <div class="wz-impact-label">Transações afetadas/mês</div>
+                    </div>
+                    <div class="wz-impact-item">
+                        <div class="wz-impact-value positive">+8%</div>
+                        <div class="wz-impact-label">Aumento em compliance</div>
+                    </div>
+                    <div class="wz-impact-item">
+                        <div class="wz-impact-value negative">+15min</div>
+                        <div class="wz-impact-label">Tempo médio de aprovação</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="wizard-footer">
+                <button class="wz-btn wz-btn-secondary" onclick="closeWizard()">Cancelar</button>
+                <div class="wizard-footer-right">
+                    <button class="wz-btn wz-btn-secondary" id="wzBtnBack" onclick="prevWizardStep()" style="visibility: hidden;">Voltar</button>
+                    <button class="wz-btn wz-btn-primary" id="wzBtnNext" onclick="nextWizardStep()">Próximo</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         // Rule Toggle (expand/collapse individual rules)
         function toggleRule(collapsed) {
@@ -5550,6 +6218,337 @@
                 alert('Fluxo criado com sucesso');
             }
         }
+
+        // ═══════════════════════════════════════════════
+        // V12 Fase 3: Wizard de Nova Regra — JS
+        // ═══════════════════════════════════════════════
+
+        var currentWizardStep = 1;
+        var wizardData = {
+            name: '', objective: '', description: '', trigger: '',
+            conditions: [], reqSet: 'Fiscal Brasil', approvalFlow: 'Agent + Gestor',
+            actions: ['Registrar no log de auditoria', 'Enviar alerta ao gestor']
+        };
+
+        // Template data for review
+        var wzTemplateData = {
+            req: {
+                'Fiscal Brasil': { required: 4, optional: 2, fields: 'NF-e, Categoria, Centro de custo, CNPJ' },
+                'Viagem Corporativa': { required: 3, optional: 2, fields: 'Reserva, Justificativa, Aprovação prévia' },
+                'Reembolso Padrão': { required: 3, optional: 1, fields: 'Comprovante, Justificativa, Categoria' }
+            },
+            flow: {
+                'Agent + Gestor': { mode: 'Modo híbrido · SLA 24h', detail: 'Agent → Gestor direto (fallback)', extra: 'Confiança mín. 90% · Auto-decidir' },
+                'Dupla Aprovação': { mode: 'Sequencial · SLA 48h', detail: 'Gestor direto → Financeiro', extra: 'Fallback: Comitê financeiro' },
+                'Auto-aprovação': { mode: 'Automático · <1 min', detail: 'Sem intervenção humana', extra: '' },
+                'Gestor Direto': { mode: 'Simples · Aprovação única', detail: 'Gestor direto', extra: '' }
+            }
+        };
+
+        function openWizard() {
+            currentWizardStep = 1;
+            // Reset form
+            document.getElementById('wzRuleName').value = '';
+            document.getElementById('wzDescription').value = '';
+            document.getElementById('wzTrigger').selectedIndex = 0;
+            document.querySelectorAll('#wzObjectiveTags .wz-tag').forEach(function(t) { t.classList.remove('selected'); });
+            // Reset conditions to 1 default
+            var condList = document.getElementById('wzConditionsList');
+            condList.innerHTML = '<div class="wz-condition-row">' +
+                '<select><option>Valor total</option><option>Categoria</option><option>Tipo de solicitação</option><option>Fornecedor</option><option>País de origem</option><option>Centro de custo</option><option>Moeda</option></select>' +
+                '<select><option>≥</option><option>=</option><option>≠</option><option>></option><option>&lt;</option><option>≤</option><option>contém</option></select>' +
+                '<input type="text" value="R$ 2.000" placeholder="Valor..." />' +
+                '<button class="wz-condition-remove" onclick="removeWzCondition(this)">×</button></div>';
+            // Reset template selections
+            resetWzTemplateSelection('req');
+            resetWzTemplateSelection('flow');
+            // Reset wizard data
+            wizardData = { name: '', objective: '', description: '', trigger: '', conditions: [], reqSet: 'Fiscal Brasil', approvalFlow: 'Agent + Gestor', actions: ['Registrar no log de auditoria', 'Enviar alerta ao gestor'] };
+            renderWizardStep();
+            document.getElementById('wizardOverlay').classList.add('open');
+        }
+
+        function closeWizard() {
+            document.getElementById('wizardOverlay').classList.remove('open');
+        }
+
+        function resetWzTemplateSelection(type) {
+            var gridId = type === 'req' ? 'wzReqTemplateGrid' : 'wzFlowTemplateGrid';
+            var grid = document.getElementById(gridId);
+            var options = grid.querySelectorAll('.wz-template-option');
+            options.forEach(function(o, i) {
+                if (i === 0) { o.classList.add('selected'); } else { o.classList.remove('selected'); }
+            });
+            grid.querySelectorAll('.wz-template-preview').forEach(function(p) { p.classList.remove('open'); });
+        }
+
+        function goToWizardStep(step) {
+            if (step < 1 || step > 5) return;
+            currentWizardStep = step;
+            if (step === 5) collectWizardData();
+            renderWizardStep();
+        }
+
+        function nextWizardStep() {
+            if (currentWizardStep < 5) {
+                currentWizardStep++;
+                if (currentWizardStep === 5) collectWizardData();
+                renderWizardStep();
+            } else {
+                createRule();
+            }
+        }
+
+        function prevWizardStep() {
+            if (currentWizardStep > 1) {
+                currentWizardStep--;
+                renderWizardStep();
+            }
+        }
+
+        function renderWizardStep() {
+            // Update step contents
+            for (var i = 1; i <= 5; i++) {
+                var content = document.getElementById('wizardStep' + i);
+                if (i === currentWizardStep) {
+                    content.classList.add('active');
+                } else {
+                    content.classList.remove('active');
+                }
+            }
+
+            // Update stepper circles and labels
+            var items = document.querySelectorAll('.wizard-step-item');
+            items.forEach(function(el, idx) {
+                var stepNum = idx + 1;
+                var circle = el.querySelector('.wizard-step-circle');
+                el.classList.remove('active', 'done');
+                circle.classList.remove('active', 'done', 'pending');
+
+                if (stepNum < currentWizardStep) {
+                    el.classList.add('done');
+                    circle.classList.add('done');
+                    circle.innerHTML = '<svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M3 8l4 4 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+                } else if (stepNum === currentWizardStep) {
+                    el.classList.add('active');
+                    circle.classList.add('active');
+                    circle.textContent = stepNum;
+                } else {
+                    circle.classList.add('pending');
+                    circle.textContent = stepNum;
+                }
+            });
+
+            // Update connectors
+            var connectors = document.querySelectorAll('.wizard-step-connector');
+            connectors.forEach(function(el, idx) {
+                if (idx < currentWizardStep - 1) {
+                    el.classList.add('done');
+                } else {
+                    el.classList.remove('done');
+                }
+            });
+
+            // Update buttons
+            document.getElementById('wzBtnBack').style.visibility = currentWizardStep === 1 ? 'hidden' : 'visible';
+            document.getElementById('wzBtnNext').textContent = currentWizardStep === 5 ? 'Criar Regra' : 'Próximo';
+
+            // Update review if on step 5
+            if (currentWizardStep === 5) {
+                updateWzReview();
+            }
+        }
+
+        // Tag selection
+        function selectWzTag(el) {
+            document.querySelectorAll('#wzObjectiveTags .wz-tag').forEach(function(t) { t.classList.remove('selected'); });
+            el.classList.add('selected');
+        }
+
+        // Template selection
+        function selectWzTemplate(el, type) {
+            var grid = el.closest('.wz-template-grid');
+            grid.querySelectorAll('.wz-template-option').forEach(function(opt) { opt.classList.remove('selected'); });
+            el.classList.add('selected');
+            // Close all previews in the grid
+            grid.querySelectorAll('.wz-template-preview').forEach(function(p) { p.classList.remove('open'); });
+            grid.querySelectorAll('.wz-template-preview-btn').forEach(function(b) {
+                b.textContent = b.textContent.indexOf('fluxo') >= 0 || b.textContent.indexOf('Ocultar') >= 0 ? 'Ver fluxo ▾' : 'Ver campos ▾';
+            });
+        }
+
+        // Preview toggle
+        function toggleWzPreview(btn) {
+            var option = btn.closest('.wz-template-option');
+            var preview = option.nextElementSibling;
+            while (preview && !preview.classList.contains('wz-template-preview')) {
+                preview = preview.nextElementSibling;
+            }
+            if (preview && preview.classList.contains('wz-template-preview')) {
+                preview.classList.toggle('open');
+                var isFlow = option.closest('#wizardStep4') !== null;
+                if (preview.classList.contains('open')) {
+                    btn.textContent = 'Ocultar ▴';
+                } else {
+                    btn.textContent = isFlow ? 'Ver fluxo ▾' : 'Ver campos ▾';
+                }
+            }
+        }
+
+        // Conditions builder
+        function addWzCondition() {
+            var list = document.getElementById('wzConditionsList');
+            var row = document.createElement('div');
+            row.className = 'wz-condition-row';
+            row.innerHTML = '<select><option>Valor total</option><option>Categoria</option><option>Tipo de solicitação</option><option>Fornecedor</option><option>País de origem</option><option>Centro de custo</option><option>Moeda</option></select>' +
+                '<select><option>≥</option><option>=</option><option>≠</option><option>></option><option>&lt;</option><option>≤</option><option>contém</option></select>' +
+                '<input type="text" placeholder="Valor..." />' +
+                '<button class="wz-condition-remove" onclick="removeWzCondition(this)">×</button>';
+            list.appendChild(row);
+        }
+
+        function removeWzCondition(btn) {
+            var row = btn.closest('.wz-condition-row');
+            var list = document.getElementById('wzConditionsList');
+            if (list.querySelectorAll('.wz-condition-row').length > 1) {
+                row.remove();
+            } else {
+                alert('A regra precisa ter pelo menos uma condição.');
+            }
+        }
+
+        // Collect wizard data for review
+        function collectWizardData() {
+            wizardData.name = document.getElementById('wzRuleName').value || 'Nova Regra';
+            var selTag = document.querySelector('#wzObjectiveTags .wz-tag.selected');
+            wizardData.objective = selTag ? selTag.textContent : '—';
+            wizardData.description = document.getElementById('wzDescription').value;
+            wizardData.trigger = document.getElementById('wzTrigger').value || '—';
+
+            // Conditions
+            wizardData.conditions = [];
+            document.querySelectorAll('#wzConditionsList .wz-condition-row').forEach(function(row) {
+                var selects = row.querySelectorAll('select');
+                var input = row.querySelector('input');
+                wizardData.conditions.push({
+                    field: selects[0] ? selects[0].value : '',
+                    op: selects[1] ? selects[1].value : '',
+                    value: input ? input.value : ''
+                });
+            });
+
+            // Req Set
+            var reqSel = document.querySelector('#wzReqTemplateGrid .wz-template-option.selected .wz-template-info h4');
+            wizardData.reqSet = reqSel ? reqSel.textContent : '—';
+
+            // Approval Flow
+            var flowSel = document.querySelector('#wzFlowTemplateGrid .wz-template-option.selected .wz-template-info h4');
+            wizardData.approvalFlow = flowSel ? flowSel.textContent : '—';
+        }
+
+        // Update review step
+        function updateWzReview() {
+            var d = wizardData;
+            var reqData = wzTemplateData.req[d.reqSet] || { required: '?', optional: '?', fields: '—' };
+            var flowData = wzTemplateData.flow[d.approvalFlow] || { mode: '—', detail: '—', extra: '' };
+
+            // Build conditions HTML
+            var condHTML = '';
+            d.conditions.forEach(function(c, i) {
+                if (i > 0) condHTML += ' <span style="color:var(--primary-orange);font-weight:600;">E</span> ';
+                condHTML += c.field + ' ' + c.op + ' ' + (c.value || '...');
+            });
+
+            var grid = document.getElementById('wzReviewGrid');
+            grid.innerHTML =
+                '<div class="wz-review-block wz-review-full">' +
+                    '<div class="wz-review-block-header trigger">' +
+                        '<svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M8 3v10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>' +
+                        'Gatilho &amp; Condições' +
+                    '</div>' +
+                    '<div class="wz-review-block-body">' +
+                        '<div class="wz-review-item"><strong>Regra:</strong>&nbsp; ' + d.name + '</div>' +
+                        '<div class="wz-review-item"><strong>Quando:</strong>&nbsp; ' + d.trigger + '</div>' +
+                        '<div class="wz-review-item"><strong>Se:</strong>&nbsp; ' + condHTML + '</div>' +
+                        '<div class="wz-review-item" style="margin-top:4px;">' +
+                            '<strong>Objetivo:</strong>&nbsp;' +
+                            '<span style="background:var(--primary-orange-light); color:var(--primary-orange); padding:2px 8px; border-radius:4px; font-size:11px; font-weight:600;">' + d.objective + '</span>' +
+                        '</div>' +
+                    '</div>' +
+                '</div>' +
+
+                '<div class="wz-review-block">' +
+                    '<div class="wz-review-block-header req">' +
+                        '<svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M3 4h10M3 12h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>' +
+                        'Requisitos' +
+                    '</div>' +
+                    '<div class="wz-review-block-body">' +
+                        '<div class="wz-review-template-name">' +
+                            '<svg width="10" height="10" viewBox="0 0 16 16" fill="none"><path d="M6 3L3 6M10 3l3 3M6 13l-3-3M10 13l3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>' +
+                            d.reqSet +
+                        '</div>' +
+                        '<div class="wz-review-item" style="margin-top:4px;">' + reqData.required + ' campos obrigatórios</div>' +
+                        '<div class="wz-review-item">' + reqData.optional + ' campos opcionais</div>' +
+                        '<div class="wz-review-item" style="color:var(--gray-400); font-size:11px; margin-top:4px;">' + reqData.fields + '</div>' +
+                    '</div>' +
+                '</div>' +
+
+                '<div class="wz-review-block">' +
+                    '<div class="wz-review-block-header flow">' +
+                        '<svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M2 8h4l2 3 2-6 2 3h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>' +
+                        'Aprovação' +
+                    '</div>' +
+                    '<div class="wz-review-block-body">' +
+                        '<div class="wz-review-template-name">' +
+                            '<svg width="10" height="10" viewBox="0 0 16 16" fill="none"><path d="M6 3L3 6M10 3l3 3M6 13l-3-3M10 13l3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>' +
+                            d.approvalFlow +
+                        '</div>' +
+                        '<div class="wz-review-item" style="margin-top:4px;">' + flowData.mode + '</div>' +
+                        '<div class="wz-review-item">' + flowData.detail + '</div>' +
+                        (flowData.extra ? '<div class="wz-review-item" style="color:var(--gray-400); font-size:11px; margin-top:4px;">' + flowData.extra + '</div>' : '') +
+                    '</div>' +
+                '</div>' +
+
+                '<div class="wz-review-block wz-review-full">' +
+                    '<div class="wz-review-block-header actions">' +
+                        '<svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M8 2v4l2 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.5"/></svg>' +
+                        'Ações adicionais' +
+                    '</div>' +
+                    '<div class="wz-review-block-body">' +
+                        '<div class="wz-action-checks">' +
+                            '<label class="wz-action-check checked" onclick="this.classList.toggle(\'checked\')">' +
+                                '<div class="wz-action-checkbox"><span class="wz-action-checkmark">✓</span></div>' +
+                                'Registrar no log de auditoria' +
+                            '</label>' +
+                            '<label class="wz-action-check checked" onclick="this.classList.toggle(\'checked\')">' +
+                                '<div class="wz-action-checkbox"><span class="wz-action-checkmark">✓</span></div>' +
+                                'Enviar alerta ao gestor' +
+                            '</label>' +
+                            '<label class="wz-action-check" onclick="this.classList.toggle(\'checked\')">' +
+                                '<div class="wz-action-checkbox"><span class="wz-action-checkmark">✓</span></div>' +
+                                'Bloquear transação' +
+                            '</label>' +
+                            '<label class="wz-action-check" onclick="this.classList.toggle(\'checked\')">' +
+                                '<div class="wz-action-checkbox"><span class="wz-action-checkmark">✓</span></div>' +
+                                'Escalar após 48h' +
+                            '</label>' +
+                        '</div>' +
+                    '</div>' +
+                '</div>';
+        }
+
+        // Create rule (final step)
+        function createRule() {
+            collectWizardData();
+            var name = wizardData.name || 'Nova Regra';
+            alert('Regra "' + name + '" criada com sucesso!\n\nResumo:\n• Gatilho: ' + wizardData.trigger + '\n• Requisitos: ' + wizardData.reqSet + '\n• Aprovação: ' + wizardData.approvalFlow);
+            closeWizard();
+        }
+
+        // Close wizard on overlay click
+        document.getElementById('wizardOverlay').addEventListener('click', function(e) {
+            if (e.target === this) closeWizard();
+        });
     </script>
 </body>
 </html>
