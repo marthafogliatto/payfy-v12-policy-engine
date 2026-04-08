@@ -2415,6 +2415,104 @@
 
         .tpl-divider { border: none; border-top: 1px dashed var(--gray-200); margin: 8px 0 20px; }
 
+        /* ── Template-row inside rule blocks (V12 Fase 2) ── */
+        .template-row {
+            display: flex; align-items: center; gap: 6px;
+            padding: 5px 8px; border-radius: 5px;
+            font-size: 10px; margin-top: -2px; cursor: pointer;
+            transition: all 0.15s;
+        }
+        .template-row:hover { opacity: 0.85; }
+        .template-row.req-tpl {
+            background: #EFF6FF; border: 1px solid #DBEAFE;
+        }
+        .template-row.aprov-tpl {
+            background: #F0FDF4; border: 1px solid #DCFCE7;
+        }
+        .template-row-icon {
+            width: 16px; height: 16px; border-radius: 3px;
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0; font-size: 10px;
+        }
+        .template-row.req-tpl .template-row-icon { background: #DBEAFE; color: #2563EB; }
+        .template-row.aprov-tpl .template-row-icon { background: #DCFCE7; color: #16A34A; }
+        .template-row-name { font-weight: 600; color: var(--gray-700); }
+        .template-row-usage { color: var(--gray-400); font-weight: 400; margin-left: auto; }
+
+        /* ── Save bar inside rule blocks (V12 Fase 2) ── */
+        .save-bar {
+            display: none; padding: 6px 10px;
+            background: #FFF8F5; border: 1px dashed var(--primary-orange);
+            border-radius: 4px; margin-top: 4px;
+            align-items: center; justify-content: space-between;
+        }
+        .save-bar.visible { display: flex; }
+        .save-bar-text { font-size: 10px; color: var(--primary-orange); font-weight: 500; }
+        .save-bar-actions { display: flex; gap: 4px; }
+
+        /* ── Scope modal (V12 Fase 2) ── */
+        .edit-overlay {
+            display: none; position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 100; align-items: center; justify-content: center;
+        }
+        .edit-overlay.open { display: flex; }
+        .edit-dialog {
+            background: #fff; border-radius: 12px;
+            width: 560px; max-width: 95vw; max-height: 90vh; overflow-y: auto;
+            padding: 20px; box-shadow: 0 16px 48px rgba(0,0,0,0.2);
+        }
+        .edit-dialog h3 { font-size: 14px; font-weight: 700; color: var(--gray-800); margin-bottom: 10px; }
+        .edit-dialog p { font-size: 11px; color: var(--gray-500); margin-bottom: 12px; }
+
+        .diff-container { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+        .diff-col { border-radius: 6px; overflow: hidden; border: 1px solid var(--gray-200); }
+        .diff-col.after { border-color: var(--primary-orange); }
+        .diff-col-header { padding: 6px 10px; font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; }
+        .diff-col.before .diff-col-header { background: var(--gray-50); color: var(--gray-400); }
+        .diff-col.after .diff-col-header { background: #FFF5F0; color: var(--primary-orange); }
+        .diff-row { display: flex; align-items: center; justify-content: space-between; padding: 4px 10px; font-size: 11px; border-bottom: 1px solid var(--gray-50); }
+        .diff-row:last-child { border-bottom: none; }
+        .diff-row.changed { background: #FFF8F0; }
+        .diff-row.removed { background: #FEF2F2; text-decoration: line-through; color: #DC2626; }
+        .diff-row.added { background: #F0FDF4; color: #16A34A; }
+        .diff-badge { font-size: 9px; padding: 1px 5px; border-radius: 3px; font-weight: 500; }
+        .diff-badge.obrig { background: #DBEAFE; color: #2563EB; }
+        .diff-badge.opc { background: var(--gray-100); color: var(--gray-500); }
+
+        .edit-dialog-option {
+            padding: 12px 14px; border: 2px solid var(--gray-200);
+            border-radius: 8px; cursor: pointer; margin-bottom: 8px;
+            transition: all 0.15s;
+        }
+        .edit-dialog-option:hover { border-color: var(--primary-orange); background: #FFF8F5; }
+        .edit-dialog-option h4 { font-size: 12px; font-weight: 600; color: var(--gray-800); margin-bottom: 2px; }
+        .edit-dialog-option .opt-desc { font-size: 10px; color: var(--gray-500); }
+        .edit-dialog-option .opt-warning { font-size: 10px; color: var(--primary-orange); font-weight: 500; margin-top: 3px; }
+        .edit-dialog-cancel { text-align: center; margin-top: 8px; }
+        .edit-dialog-cancel button {
+            background: none; border: none; font-size: 11px;
+            color: var(--gray-400); cursor: pointer; padding: 4px 12px;
+        }
+        .edit-dialog-cancel button:hover { color: var(--gray-600); }
+
+        /* ── Agent detail grid 3 columns (V12 Fase 2) ── */
+        .agent-detail-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+        .agent-section-title {
+            font-size: 9px; font-weight: 600; text-transform: uppercase;
+            letter-spacing: 0.05em; color: var(--gray-400); margin-bottom: 4px;
+        }
+        .agent-kv { display: flex; justify-content: space-between; font-size: 11px; padding: 2px 0; }
+        .agent-kv-label { color: var(--gray-400); }
+        .agent-kv-value { font-weight: 500; color: var(--gray-700); }
+
+        /* ── Field editing interactions (V12 Fase 2) ── */
+        .block .field { position: relative; transition: all 0.1s; }
+        .block .field:hover { border-color: var(--primary-orange); cursor: pointer; }
+        .block .field.removed-field { opacity: 0.3; text-decoration: line-through; }
+        .block .field.changed-field { border-color: #F59E0B; background: #FFF8F0; }
+
         .add-field-btn {
             display: inline-flex; align-items: center; gap: 3px;
             font-size: 10px; font-weight: 500; color: var(--primary-orange);
@@ -2628,6 +2726,7 @@
         @media (max-width: 800px) {
             .rule-expanded.show { flex-direction: column; }
             .tpl-grid { grid-template-columns: 1fr; }
+            .agent-detail-grid { grid-template-columns: 1fr; }
         }
         @media (max-width: 768px) {
             .header-content { flex-wrap: wrap; gap: var(--spacing-md); }
@@ -4148,6 +4247,36 @@
     </div>
     </main>
 
+    <!-- Scope Modal (V12 Fase 2) -->
+    <div class="edit-overlay" id="edit-overlay">
+        <div class="edit-dialog">
+            <h3 id="edit-dialog-title">Salvar alterações</h3>
+            <div class="diff-container" id="diff-container">
+                <div class="diff-col before">
+                    <div class="diff-col-header">Antes</div>
+                    <div id="diff-before"></div>
+                </div>
+                <div class="diff-col after">
+                    <div class="diff-col-header">Depois</div>
+                    <div id="diff-after"></div>
+                </div>
+            </div>
+            <p id="edit-dialog-desc">Onde aplicar essas alterações?</p>
+            <div class="edit-dialog-option" onclick="handleEditChoice('template')">
+                <h4>Salvar no template original</h4>
+                <div class="opt-desc">As alterações serão aplicadas em todas as regras que usam este template.</div>
+                <div class="opt-warning" id="edit-warning-count">Afeta 3 regras</div>
+            </div>
+            <div class="edit-dialog-option" onclick="handleEditChoice('only-this')">
+                <h4>Só para esta regra</h4>
+                <div class="opt-desc">Cria uma cópia independente. O template original e as outras regras não são afetados.</div>
+            </div>
+            <div class="edit-dialog-cancel">
+                <button onclick="closeEditDialog()">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Drawer Overlay (V12) -->
     <div class="drawer-overlay" id="drawerOverlay" onclick="closeDrawer()">
         <div class="drawer" onclick="event.stopPropagation()">
@@ -4791,6 +4920,334 @@
             document.getElementById('hubLayout').scrollIntoView({ behavior: 'smooth' });
             showToast('✓ 4 novas políticas adicionadas com sucesso!');
         }
+
+        // ═══════ V12 Fase 2: Template-rows, State Management, Scope Modal, Agent Grid ═══════
+
+        // Template mapping: each workflow → array of rules, each rule has req/aprov template info
+        var templateMapping = {
+            'policy-solicitacoes': [
+                { req: 'Fiscal Brasil', reqUsage: 3, aprov: 'Dupla Aprovação', aprovUsage: 2 },
+                { req: 'Fiscal Brasil', reqUsage: 3, aprov: 'Agent + Gestor', aprovUsage: 2 },
+                { req: 'Fiscal Brasil', reqUsage: 3, aprov: 'Agent + Gestor', aprovUsage: 2 },
+                { req: 'Reembolso Padrão', reqUsage: 1, aprov: 'Gestor Direto', aprovUsage: 0 }
+            ],
+            'policy-reembolso-solic': [
+                { req: 'Reembolso Padrão', reqUsage: 1, aprov: 'Agent + Gestor', aprovUsage: 2 },
+                { req: 'Reembolso Padrão', reqUsage: 1, aprov: 'Dupla Aprovação', aprovUsage: 2 },
+                { req: 'Viagem Corporativa', reqUsage: 2, aprov: 'Agent + Gestor', aprovUsage: 2 },
+                { req: 'Fiscal Brasil', reqUsage: 3, aprov: 'Dupla Aprovação', aprovUsage: 2 }
+            ],
+            'policy-cartao': [
+                { req: 'Fiscal Brasil', reqUsage: 3, aprov: 'Agent + Gestor', aprovUsage: 2 },
+                { req: 'Fiscal Brasil', reqUsage: 3, aprov: 'Agent + Gestor', aprovUsage: 2 },
+                { req: 'Fiscal Brasil', reqUsage: 3, aprov: 'Dupla Aprovação', aprovUsage: 2 },
+                { req: 'Fiscal Brasil', reqUsage: 3, aprov: 'Dupla Aprovação', aprovUsage: 2 }
+            ],
+            'policy-reembolsos': [
+                { req: 'Reembolso Padrão', reqUsage: 1, aprov: 'Agent + Gestor', aprovUsage: 2 },
+                { req: 'Reembolso Padrão', reqUsage: 1, aprov: 'Dupla Aprovação', aprovUsage: 2 },
+                { req: 'Fiscal Brasil', reqUsage: 3, aprov: 'Dupla Aprovação', aprovUsage: 2 }
+            ],
+            'policy-viagens': [
+                { req: 'Viagem Corporativa', reqUsage: 2, aprov: 'Agent + Gestor', aprovUsage: 2 },
+                { req: 'Viagem Corporativa', reqUsage: 2, aprov: 'Dupla Aprovação', aprovUsage: 2 },
+                { req: 'Viagem Corporativa', reqUsage: 2, aprov: 'Dupla Aprovação', aprovUsage: 2 }
+            ]
+        };
+
+        // Inject template-rows on page load
+        function injectTemplateRows() {
+            Object.keys(templateMapping).forEach(function(policyId) {
+                var policy = document.getElementById(policyId);
+                if (!policy) return;
+                var ruleItems = policy.querySelectorAll('.rule-item');
+                var mapping = templateMapping[policyId];
+                ruleItems.forEach(function(ruleItem, idx) {
+                    if (idx >= mapping.length) return;
+                    var map = mapping[idx];
+                    var expanded = ruleItem.querySelector('.rule-expanded');
+                    if (!expanded) return;
+                    var blocks = expanded.querySelectorAll('.block');
+                    blocks.forEach(function(block) {
+                        var header = block.querySelector('.block-header');
+                        if (!header) return;
+                        var isReq = header.querySelector('.block-icon.req');
+                        var isAprov = header.querySelector('.block-icon.aprov');
+
+                        if (isReq && map.req) {
+                            var row = document.createElement('div');
+                            row.className = 'template-row req-tpl';
+                            row.setAttribute('data-template', map.req);
+                            row.setAttribute('data-usage', map.reqUsage);
+                            row.onclick = function() { switchMainTab('templates', {stopPropagation:function(){}, target: document.querySelector('.nav-tab:nth-child(2)')}); };
+                            row.innerHTML = '<span class="template-row-icon">⬡</span>' +
+                                '<span class="template-row-name">Conjunto "' + map.req + '"</span>' +
+                                '<span class="template-row-usage">Usado em ' + map.reqUsage + ' regra' + (map.reqUsage > 1 ? 's' : '') + '</span>';
+                            header.after(row);
+                        }
+                        if (isAprov && map.aprov) {
+                            var row = document.createElement('div');
+                            row.className = 'template-row aprov-tpl';
+                            row.setAttribute('data-template', map.aprov);
+                            row.setAttribute('data-usage', map.aprovUsage);
+                            row.onclick = function() { switchMainTab('templates', {stopPropagation:function(){}, target: document.querySelector('.nav-tab:nth-child(2)')}); };
+                            row.innerHTML = '<span class="template-row-icon">⬡</span>' +
+                                '<span class="template-row-name">Fluxo "' + map.aprov + '"</span>' +
+                                '<span class="template-row-usage">' + (map.aprovUsage > 0 ? 'Usado em ' + map.aprovUsage + ' regra' + (map.aprovUsage > 1 ? 's' : '') : 'Não usado') + '</span>';
+                            header.after(row);
+                        }
+                    });
+
+                    // Add save bar to each block
+                    blocks.forEach(function(block, bIdx) {
+                        var blockId = policyId + '-r' + idx + '-b' + bIdx;
+                        block.setAttribute('data-block-id', blockId);
+                        var saveBar = document.createElement('div');
+                        saveBar.className = 'save-bar';
+                        saveBar.id = 'save-bar-' + blockId;
+                        saveBar.innerHTML = '<span class="save-bar-text">1 alteração pendente</span>' +
+                            '<div class="save-bar-actions">' +
+                            '<button class="save-bar-btn secondary" onclick="undoBlockChanges(\'' + blockId + '\')">Desfazer</button>' +
+                            '<button class="save-bar-btn primary" onclick="saveBlockChanges(\'' + blockId + '\')">Salvar alterações</button>' +
+                            '</div>';
+                        block.appendChild(saveBar);
+                    });
+                });
+            });
+        }
+
+        // Inject agent detail grids
+        function injectAgentDetailGrids() {
+            // Find all approval chains that have a Policy Agent step
+            document.querySelectorAll('.approval-chain').forEach(function(chain) {
+                var hasAgent = chain.querySelector('.person.agent');
+                if (!hasAgent) return;
+                var block = chain.closest('.block');
+                if (!block) return;
+                var expanded = block.closest('.rule-expanded');
+                if (!expanded) return;
+
+                // Check if agent detail already exists
+                if (expanded.querySelector('.agent-detail-grid')) return;
+
+                var agentDetail = document.createElement('div');
+                agentDetail.className = 'block';
+                agentDetail.style.marginTop = '4px';
+                agentDetail.innerHTML =
+                    '<div class="block-header" style="cursor:pointer;" onclick="this.nextElementSibling.style.display = this.nextElementSibling.style.display === \'none\' ? \'block\' : \'none\'">' +
+                    '<div class="block-icon" style="background:#FFF5F0; color:var(--primary-orange);">🤖</div>' +
+                    '<span class="block-title">Policy Agent</span>' +
+                    '<span class="block-badge" style="background:#FFF5F0; color:var(--primary-orange);">Ativo</span>' +
+                    '<span style="margin-left:auto; font-size:10px; color:var(--gray-400);">▸ Detalhes</span>' +
+                    '</div>' +
+                    '<div class="agent-detail-grid" style="display:none; padding: 8px 0 0;">' +
+                    '<div>' +
+                    '<div class="agent-section-title">Configuração</div>' +
+                    '<div class="agent-kv"><span class="agent-kv-label">Modo</span><span class="agent-kv-value">Automático</span></div>' +
+                    '<div class="agent-kv"><span class="agent-kv-label">Confiança mín.</span><span class="agent-kv-value">90%</span></div>' +
+                    '<div class="agent-kv"><span class="agent-kv-label">Auto-decidir</span><span class="agent-kv-value">Sim</span></div>' +
+                    '</div>' +
+                    '<div>' +
+                    '<div class="agent-section-title">Performance (30d)</div>' +
+                    '<div class="agent-kv"><span class="agent-kv-label">Auto-decidido</span><span class="agent-kv-value">72%</span></div>' +
+                    '<div class="agent-kv"><span class="agent-kv-label">Escalado</span><span class="agent-kv-value">18%</span></div>' +
+                    '<div class="agent-kv"><span class="agent-kv-label">Revisado</span><span class="agent-kv-value">10%</span></div>' +
+                    '</div>' +
+                    '<div>' +
+                    '<div class="agent-section-title">Critérios avaliados</div>' +
+                    '<div class="agent-kv"><span class="agent-kv-label">Comprovante fiscal</span></div>' +
+                    '<div class="agent-kv"><span class="agent-kv-label">Situação CNPJ</span></div>' +
+                    '<div class="agent-kv"><span class="agent-kv-label">Padrão histórico</span></div>' +
+                    '<div class="agent-kv"><span class="agent-kv-label">Categoria vigente</span></div>' +
+                    '</div>' +
+                    '</div>';
+                expanded.appendChild(agentDetail);
+            });
+        }
+
+        // Add click handlers on fields for inline editing
+        function initFieldEditing() {
+            document.querySelectorAll('.rule-expanded .block .field').forEach(function(field) {
+                field.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    var block = this.closest('.block');
+                    var blockId = block ? block.getAttribute('data-block-id') : null;
+                    if (!blockId) return;
+
+                    // Toggle removed
+                    this.classList.toggle('removed-field');
+                    registerBlockChange(blockId);
+                });
+            });
+        }
+
+        // State management
+        var originalBlockState = {};
+        var blockChangeCount = {};
+        var currentEditBlockId = null;
+
+        function captureBlockState(blockId) {
+            var block = document.querySelector('[data-block-id="' + blockId + '"]');
+            if (!block) return;
+            var fields = [];
+            block.querySelectorAll('.field').forEach(function(f) {
+                fields.push({
+                    text: f.textContent.trim(),
+                    isOptional: f.classList.contains('opcional'),
+                    isRemoved: f.classList.contains('removed-field')
+                });
+            });
+            var steps = [];
+            block.querySelectorAll('.approval-step').forEach(function(s) {
+                steps.push(s.textContent.trim());
+            });
+            originalBlockState[blockId] = { fields: fields, steps: steps };
+            blockChangeCount[blockId] = 0;
+        }
+
+        function registerBlockChange(blockId) {
+            if (!originalBlockState[blockId]) captureBlockState(blockId);
+            blockChangeCount[blockId] = (blockChangeCount[blockId] || 0) + 1;
+            var saveBar = document.getElementById('save-bar-' + blockId);
+            if (saveBar) {
+                var count = blockChangeCount[blockId];
+                saveBar.querySelector('.save-bar-text').textContent = count + ' alteraç' + (count > 1 ? 'ões pendentes' : 'ão pendente');
+                saveBar.classList.add('visible');
+            }
+        }
+
+        function undoBlockChanges(blockId) {
+            var block = document.querySelector('[data-block-id="' + blockId + '"]');
+            if (!block) return;
+            block.querySelectorAll('.field.removed-field').forEach(function(f) {
+                f.classList.remove('removed-field');
+            });
+            block.querySelectorAll('.field.changed-field').forEach(function(f) {
+                f.classList.remove('changed-field');
+            });
+            blockChangeCount[blockId] = 0;
+            var saveBar = document.getElementById('save-bar-' + blockId);
+            if (saveBar) saveBar.classList.remove('visible');
+        }
+
+        function saveBlockChanges(blockId) {
+            currentEditBlockId = blockId;
+            var block = document.querySelector('[data-block-id="' + blockId + '"]');
+            if (!block) return;
+
+            // Find template info from the template-row in this block
+            var tplRow = block.querySelector('.template-row');
+            var tplName = tplRow ? tplRow.getAttribute('data-template') : 'Template';
+            var tplUsage = tplRow ? parseInt(tplRow.getAttribute('data-usage') || '1') : 1;
+
+            document.getElementById('edit-dialog-title').textContent = 'Salvar alterações';
+            document.getElementById('edit-warning-count').textContent = 'Afeta ' + tplUsage + ' regra' + (tplUsage > 1 ? 's' : '');
+
+            // Generate diff
+            var isReqBlock = !!block.querySelector('.block-icon.req');
+            if (isReqBlock) {
+                renderDiffReq(block, blockId);
+            } else {
+                renderDiffFlow(block, blockId);
+            }
+
+            document.getElementById('edit-overlay').classList.add('open');
+        }
+
+        function renderDiffReq(block, blockId) {
+            var orig = originalBlockState[blockId];
+            var beforeHtml = '';
+            var afterHtml = '';
+
+            if (orig && orig.fields) {
+                orig.fields.forEach(function(f) {
+                    var badge = f.isOptional ? '<span class="diff-badge opc">Opcional</span>' : '<span class="diff-badge obrig">Obrigatório</span>';
+                    beforeHtml += '<div class="diff-row"><span>' + f.text + '</span>' + badge + '</div>';
+                });
+            }
+
+            block.querySelectorAll('.field').forEach(function(f) {
+                var isRemoved = f.classList.contains('removed-field');
+                var isChanged = f.classList.contains('changed-field');
+                var isOpc = f.classList.contains('opcional');
+                var badge = isOpc ? '<span class="diff-badge opc">Opcional</span>' : '<span class="diff-badge obrig">Obrigatório</span>';
+                var cls = isRemoved ? ' removed' : (isChanged ? ' changed' : '');
+                afterHtml += '<div class="diff-row' + cls + '"><span>' + f.textContent.trim() + '</span>' + badge + '</div>';
+            });
+
+            document.getElementById('diff-before').innerHTML = beforeHtml || '<div class="diff-row" style="color:var(--gray-400);">Sem campos</div>';
+            document.getElementById('diff-after').innerHTML = afterHtml || '<div class="diff-row" style="color:var(--gray-400);">Sem campos</div>';
+        }
+
+        function renderDiffFlow(block, blockId) {
+            var orig = originalBlockState[blockId];
+            var beforeHtml = '';
+            var afterHtml = '';
+
+            if (orig && orig.steps) {
+                orig.steps.forEach(function(s, i) {
+                    beforeHtml += '<div class="diff-row"><span>' + (i + 1) + '. ' + s + '</span></div>';
+                });
+            }
+
+            block.querySelectorAll('.approval-step').forEach(function(s, i) {
+                afterHtml += '<div class="diff-row"><span>' + (i + 1) + '. ' + s.textContent.trim() + '</span></div>';
+            });
+
+            document.getElementById('diff-before').innerHTML = beforeHtml || '<div class="diff-row" style="color:var(--gray-400);">Sem etapas</div>';
+            document.getElementById('diff-after').innerHTML = afterHtml || '<div class="diff-row" style="color:var(--gray-400);">Sem etapas</div>';
+        }
+
+        function handleEditChoice(choice) {
+            closeEditDialog();
+            if (currentEditBlockId) {
+                var saveBar = document.getElementById('save-bar-' + currentEditBlockId);
+                if (saveBar) saveBar.classList.remove('visible');
+                blockChangeCount[currentEditBlockId] = 0;
+
+                if (choice === 'template') {
+                    // Find template usage count
+                    var block = document.querySelector('[data-block-id="' + currentEditBlockId + '"]');
+                    var tplRow = block ? block.querySelector('.template-row') : null;
+                    var tplName = tplRow ? tplRow.getAttribute('data-template') : 'Template';
+                    var usage = tplRow ? tplRow.getAttribute('data-usage') : '1';
+                    showToast('✓ Template "' + tplName + '" atualizado. ' + usage + ' regra' + (parseInt(usage) > 1 ? 's' : '') + ' afetada' + (parseInt(usage) > 1 ? 's' : '') + '. Documento da Política atualizado.');
+                } else {
+                    // Mark as customized
+                    var block = document.querySelector('[data-block-id="' + currentEditBlockId + '"]');
+                    var tplRow = block ? block.querySelector('.template-row') : null;
+                    if (tplRow) {
+                        var nameEl = tplRow.querySelector('.template-row-name');
+                        var origName = tplRow.getAttribute('data-template');
+                        var isReq = tplRow.classList.contains('req-tpl');
+                        nameEl.textContent = (isReq ? 'Conjunto' : 'Fluxo') + ' "Personalizado (baseado em ' + origName + ')"';
+                        tplRow.querySelector('.template-row-usage').textContent = 'Só esta regra';
+                    }
+                    showToast('✓ Cópia independente criada para esta regra.');
+                }
+
+                // Remove removed fields for real
+                var block = document.querySelector('[data-block-id="' + currentEditBlockId + '"]');
+                if (block) {
+                    block.querySelectorAll('.field.removed-field').forEach(function(f) { f.remove(); });
+                }
+
+                // Re-capture state
+                delete originalBlockState[currentEditBlockId];
+                currentEditBlockId = null;
+            }
+        }
+
+        function closeEditDialog() {
+            document.getElementById('edit-overlay').classList.remove('open');
+        }
+
+        // Initialize Fase 2 on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            injectTemplateRows();
+            injectAgentDetailGrids();
+            setTimeout(function() { initFieldEditing(); }, 100);
+        });
 
         // ═══════ V12: Template functions ═══════
 
