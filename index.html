@@ -3968,155 +3968,6 @@ select.form-input {
                         <button class="btn btn-secondary btn-sm" onclick="openSlideover('cartao')">Editar Workflow</button>
                         <button class="btn btn-ghost btn-sm" onclick="showToast('Simulação em desenvolvimento.','info')">Testar Regras</button>
                       </div>
-                    <!-- REPLACE-MARKER-END-CARTAO -->
-                                <div class="rule-summary">
-                                    <span class="summary-pill">1 obrigatório</span>
-                                    <span class="summary-pill agent-pill">Agent + fallback</span>
-                                </div>
-                            </div>
-                            <div class="rule-expanded">
-                                <div class="block">
-                                    <div class="block-header">
-                                        <div class="block-icon req">📎</div>
-                                        <span class="block-title">Requisitos</span>
-                                        <span class="block-badge req">1 obrigatório</span>
-                                    </div>
-                                    <div class="campos-group"><span class="group-label">Dados da Despesa</span><span class="field">Categoria</span></div>
-                                </div>
-                                <div class="block">
-                                    <div class="block-header">
-                                        <div class="block-icon aprov">✓</div>
-                                        <span class="block-title">Aprovação</span>
-                                        <span class="block-badge neutral">Agent + fallback</span>
-                                    </div>
-                                    <div class="approval-chain">
-                                        <div class="approval-step"><span class="step-number">1</span><span class="person agent"><span class="person-avatar">🤖</span> Policy Agent</span></div>
-                                        <div class="fallback-hint">Agent decide ou escala para Gestor Direto</div>
-                                        <div class="step-connector">↓ fallback</div>
-                                        <div class="approval-step"><span class="step-number">2</span><span class="person dynamic"><span class="person-avatar">↻</span> Gestor Direto</span></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Regra 2 -->
-                        <div class="rule-item">
-                            <div class="rule-collapsed" onclick="toggleRule(this)">
-                                <span class="collapse-arrow">▸</span>
-                                <span class="rule-condition-text"><span class="connector">Se</span> valor &gt; <span class="val">R$ 200</span> <span class="connector">e</span> valor ≤ <span class="val">R$ 2.000</span></span>
-                                <div class="rule-summary">
-                                    <span class="summary-pill">3 obrigatórios</span>
-                                    <span class="summary-pill agent-pill">Agent + fallback</span>
-                                </div>
-                            </div>
-                            <div class="rule-expanded">
-                                <div class="block">
-                                    <div class="block-header">
-                                        <div class="block-icon req">📎</div>
-                                        <span class="block-title">Requisitos</span>
-                                        <span class="block-badge req">3 obrigatórios</span>
-                                        <span class="block-badge opt">2 opcionais</span>
-                                    </div>
-                                    <div class="campos-group"><span class="group-label">Dados da Despesa</span><span class="field">Comprovante</span><span class="field">Categoria</span><span class="field">Centro de Custo</span></div>
-                                    <div class="opt-divider">
-                                        <div class="campos-group"><span class="group-label">Personalizados</span><span class="field opcional">Código do Projeto</span><span class="field opcional">Centro de Lucro</span></div>
-                                    </div>
-                                </div>
-                                <div class="block">
-                                    <div class="block-header">
-                                        <div class="block-icon aprov">✓</div>
-                                        <span class="block-title">Aprovação</span>
-                                        <span class="block-badge neutral">Agent + fallback</span>
-                                    </div>
-                                    <div class="approval-chain">
-                                        <div class="approval-step"><span class="step-number">1</span><span class="person agent"><span class="person-avatar">🤖</span> Policy Agent</span></div>
-                                        <div class="fallback-hint">Agent decide ou escala para Gestor do CC</div>
-                                        <div class="step-connector">↓ fallback</div>
-                                        <div class="approval-step"><span class="step-number">2</span><span class="person dynamic"><span class="person-avatar">GC</span> Gestor do CC</span></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Regra 3 -->
-                        <div class="rule-item">
-                            <div class="rule-collapsed" onclick="toggleRule(this)">
-                                <span class="collapse-arrow">▸</span>
-                                <span class="rule-condition-text"><span class="connector">Se</span> valor &gt; <span class="val">R$ 2.000</span> <span class="connector">e</span> categoria ∈ {<span class="val">Software</span>, <span class="val">Equipamentos</span>}</span>
-                                <div class="rule-summary">
-                                    <span class="summary-pill">5 obrigatórios</span>
-                                    <span class="summary-pill">2 níveis</span>
-                                </div>
-                            </div>
-                            <div class="rule-expanded">
-                                <div class="block">
-                                    <div class="block-header">
-                                        <div class="block-icon req">📎</div>
-                                        <span class="block-title">Requisitos</span>
-                                        <span class="block-badge req">5 obrigatórios</span>
-                                    </div>
-                                    <div class="campos-group"><span class="group-label">Dados da Despesa</span><span class="field">Comprovante</span><span class="field">Justificativa</span><span class="field">Centro de Custo</span><span class="field">Código do Projeto</span><span class="field">Aprovação Especial</span></div>
-                                </div>
-                                <div class="block">
-                                    <div class="block-header">
-                                        <div class="block-icon aprov">✓</div>
-                                        <span class="block-title">Aprovação</span>
-                                        <span class="block-badge green">2 níveis</span>
-                                    </div>
-                                    <div class="approval-chain">
-                                        <div class="approval-step"><span class="step-number">1</span><span class="person"><span class="person-avatar">GC</span> Gestor do CC</span></div>
-                                        <div class="step-connector">↓ depois</div>
-                                        <div class="approval-step"><span class="step-number">2</span><span class="person"><span class="person-avatar">TI</span> Diretor de TI</span></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Regra 4 -->
-                        <div class="rule-item">
-                            <div class="rule-collapsed" onclick="toggleRule(this)">
-                                <span class="collapse-arrow">▸</span>
-                                <span class="rule-condition-text"><span class="connector">Se</span> valor &gt; <span class="val">R$ 2.000</span> (demais categorias)</span>
-                                <div class="rule-summary">
-                                    <span class="summary-pill">4 obrigatórios</span>
-                                    <span class="summary-pill">2 níveis</span>
-                                </div>
-                            </div>
-                            <div class="rule-expanded">
-                                <div class="block">
-                                    <div class="block-header">
-                                        <div class="block-icon req">📎</div>
-                                        <span class="block-title">Requisitos</span>
-                                        <span class="block-badge req">4 obrigatórios</span>
-                                    </div>
-                                    <div class="campos-group"><span class="group-label">Dados da Despesa</span><span class="field">Comprovante</span><span class="field">Justificativa</span><span class="field">Centro de Custo</span><span class="field">Categoria</span></div>
-                                </div>
-                                <div class="block">
-                                    <div class="block-header">
-                                        <div class="block-icon aprov">✓</div>
-                                        <span class="block-title">Aprovação</span>
-                                        <span class="block-badge green">2 níveis</span>
-                                    </div>
-                                    <div class="approval-chain">
-                                        <div class="approval-step"><span class="step-number">1</span><span class="person"><span class="person-avatar">GC</span> Gestor do CC</span></div>
-                                        <div class="step-connector">↓ depois</div>
-                                        <div class="approval-step"><span class="step-number">2</span><span class="person"><span class="person-avatar">DF</span> Diretor Financeiro</span></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="policy-actions">
-                            <button class="btn btn-secondary" onclick="event.stopPropagation(); openSlideOver('cartao')">
-                                <span>⚙️</span> <span>Gerenciar Fluxo</span>
-                            </button>
-                            <button class="btn btn-primary" onclick="event.stopPropagation()">
-                                <span>🔬</span> <span>Testar Regras</span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
                 <!-- Política 4: Despesas de Reembolso -->
                 <div class="accordion-card" id="policy-reembolsos" style="--bg-start: #FEF3C7; --bg-end: #FFF7ED;">
                     <div class="accordion-header" aria-expanded="false" onclick="toggleAccordion(this.parentElement)">
@@ -4426,8 +4277,6 @@ select.form-input {
                     </div>
                 </div>
             </div>
-
-        </div>
 
                 <!-- TABLE VIEW -->
         <div id="tableView" style="display:none;">
@@ -4786,6 +4635,8 @@ select.form-input {
       </div>
 
       </div>
+
+      </div><!-- /tabRegras -->
 
       <!-- ============================================
            TAB: TEMPLATES (V12)
