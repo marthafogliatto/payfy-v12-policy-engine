@@ -2508,97 +2508,7 @@ select.form-input {
             outline-offset: 1px;
         }
 
-        /* V11: RULE ITEMS (collapsible rules) */
-        .rule-item {
-            margin-bottom: 8px;
-        }
-        .rule-collapsed {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 10px 14px;
-            background: white;
-            border: 1px solid var(--gray-200);
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.15s;
-        }
-        .rule-collapsed:hover {
-            background: var(--gray-50);
-            border-color: var(--gray-300);
-        }
-        .rule-item.open .rule-collapsed {
-            border-radius: 8px 8px 0 0;
-            border-bottom-color: transparent;
-        }
-        .collapse-arrow {
-            font-size: 12px;
-            color: var(--gray-400);
-            transition: transform 0.2s;
-            flex-shrink: 0;
-        }
-        .rule-item.open .collapse-arrow {
-            transform: rotate(90deg);
-        }
-        .rule-condition-text {
-            flex: 1;
-            font-size: 12px;
-            color: var(--gray-700);
-            line-height: 1.5;
-        }
-        .rule-condition-text .connector {
-            font-weight: 600;
-            color: var(--gray-500);
-            text-transform: uppercase;
-            font-size: 10px;
-            letter-spacing: 0.03em;
-        }
-        .rule-condition-text .val {
-            font-weight: 600;
-            color: var(--gray-800);
-            background: var(--gray-100);
-            padding: 1px 6px;
-            border-radius: 3px;
-        }
-        .rule-summary {
-            display: flex;
-            gap: 4px;
-            flex-shrink: 0;
-        }
-        .rule-summary .summary-pill {
-            font-size: 10px;
-            font-weight: 600;
-            padding: 2px 8px;
-            border-radius: 10px;
-            background: var(--gray-100);
-            color: var(--gray-500);
-            white-space: nowrap;
-        }
-        .rule-summary .summary-pill.auto {
-            background: #DCFCE7;
-            color: #16A34A;
-        }
-        .rule-summary .summary-pill.agent-pill {
-            background: #EDE9FE;
-            color: #7C3AED;
-        }
-
-        /* EXPANDED PANEL — BLOCOS INDEPENDENTES */
-        .rule-expanded {
-            display: none;
-            background: var(--gray-50);
-            padding: 12px 14px 14px;
-            border: 1px solid var(--gray-200);
-            border-top: none;
-            border-radius: 0 0 8px 8px;
-        }
-        .rule-expanded.show {
-            display: flex;
-            gap: 10px;
-        }
-        .rule-expanded.has-categories {
-            flex-wrap: wrap;
-        }
+        /* V12 rule-item/rule-collapsed/rule-expanded CSS removed -- replaced by V11 wf-builder structure */
 
         .block {
             flex: 1;
@@ -3078,6 +2988,18 @@ select.form-input {
         .template-row.aprov-tpl .template-row-icon { background: #DCFCE7; color: #16A34A; }
         .template-row-name { font-weight: 600; color: var(--gray-700); }
         .template-row-usage { color: var(--gray-400); font-weight: 400; margin-left: auto; }
+
+        /* V11 blocks inside wf-card */
+        .v11-blocks { display: flex; gap: 8px; margin-top: 10px; }
+        .v11-block { flex: 1; border: 1px solid var(--gray-200); border-radius: 6px; padding: 8px 10px; background: var(--white); }
+        .v11-block-header { display: flex; align-items: center; gap: 6px; padding-bottom: 6px; border-bottom: 1px solid var(--gray-100); margin-bottom: 4px; }
+        .v11-block-icon { font-size: 11px; width: 18px; height: 18px; border-radius: 4px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .v11-block-icon.req { background: #EFF6FF; color: #3B82F6; }
+        .v11-block-icon.aprov { background: #F0FDF4; color: #16A34A; }
+        .v11-block-title { font-size: 10px; font-weight: 600; color: var(--gray-600); text-transform: uppercase; letter-spacing: 0.04em; }
+        .v11-block-badge { font-size: 10px; font-weight: 500; padding: 1px 6px; border-radius: 8px; margin-left: auto; }
+        .v11-block-badge.req { background: #EFF6FF; color: #3B82F6; }
+        .v11-block-badge.aprov { background: #F0FDF4; color: #16A34A; }
 
         /* ── Save bar inside rule blocks (V12 Fase 2) ── */
         .save-bar {
@@ -3938,164 +3860,30 @@ select.form-input {
                         </svg>
                     </div>
                     <div class="accordion-body">
-                        <!-- Flags Ativas -->
-                        <div class="wf-flags-active">
-                            <div class="wf-flags-active-title">🚩 Flags Ativas</div>
-                            <div class="wf-flag-item">🚩 Limite mensal de cartão atingido <span class="flag-type bloqueio">Bloqueio</span></div>
-                            <div class="wf-flag-item">🚩 Solicitação duplicada em 24h <span class="flag-type alerta">Alerta</span></div>
-                        </div>
-
-                        <!-- Trigger -->
-                        <div class="wf-trigger">
-                            <div class="wf-trigger-icon">⚡</div>
-                            <div class="wf-trigger-text">Quando solicitação de cartão é criada</div>
-                            <div class="wf-trigger-badge">Trigger</div>
-                        </div>
-
-                        <!-- Regra 1 -->
-                        <div class="rule-item">
-                            <div class="rule-collapsed" onclick="toggleRule(this)">
-                                <span class="collapse-arrow">▸</span>
-                                <span class="rule-condition-text"><span class="connector">Se</span> tipo = <span class="val">Recarga</span> <span class="connector">e</span> valor &gt; <span class="val">R$ 5.000</span></span>
-                                <div class="rule-summary">
-                                    <span class="summary-pill">3 obrigatórios</span>
-                                    <span class="summary-pill">2 níveis</span>
-                                </div>
-                            </div>
-                            <div class="rule-expanded">
-                                <div class="block">
-                                    <div class="block-header">
-                                        <div class="block-icon req">📎</div>
-                                        <span class="block-title">Requisitos</span>
-                                        <span class="block-badge req">3 obrigatórios</span>
-                                    </div>
-                                    <div class="campos-group"><span class="group-label">Dados da Solicitação</span><span class="field">Justificativa</span><span class="field">Centro de Custo</span><span class="field">Código do Projeto</span></div>
-                                </div>
-                                <div class="block">
-                                    <div class="block-header">
-                                        <div class="block-icon aprov">✓</div>
-                                        <span class="block-title">Aprovação</span>
-                                        <span class="block-badge green">2 níveis</span>
-                                    </div>
-                                    <div class="approval-chain">
-                                        <div class="approval-step"><span class="step-number">1</span><span class="person"><span class="person-avatar">GC</span> Gestor do CC</span></div>
-                                        <div class="step-connector">↓ depois</div>
-                                        <div class="approval-step"><span class="step-number">2</span><span class="person"><span class="person-avatar">DF</span> Diretor Financeiro</span></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Regra 2 -->
-                        <div class="rule-item">
-                            <div class="rule-collapsed" onclick="toggleRule(this)">
-                                <span class="collapse-arrow">▸</span>
-                                <span class="rule-condition-text"><span class="connector">Se</span> tipo = <span class="val">Recarga</span> <span class="connector">e</span> valor ≤ <span class="val">R$ 5.000</span></span>
-                                <div class="rule-summary">
-                                    <span class="summary-pill">1 obrigatório</span>
-                                    <span class="summary-pill agent-pill">Agent + fallback</span>
-                                </div>
-                            </div>
-                            <div class="rule-expanded">
-                                <div class="block">
-                                    <div class="block-header">
-                                        <div class="block-icon req">📎</div>
-                                        <span class="block-title">Requisitos</span>
-                                        <span class="block-badge req">1 obrigatório</span>
-                                    </div>
-                                    <div class="campos-group"><span class="group-label">Dados da Solicitação</span><span class="field">Centro de Custo</span></div>
-                                </div>
-                                <div class="block">
-                                    <div class="block-header">
-                                        <div class="block-icon aprov">✓</div>
-                                        <span class="block-title">Aprovação</span>
-                                        <span class="block-badge neutral">Agent + fallback</span>
-                                    </div>
-                                    <div class="approval-chain">
-                                        <div class="approval-step"><span class="step-number">1</span><span class="person agent"><span class="person-avatar">🤖</span> Policy Agent</span></div>
-                                        <div class="fallback-hint">Agent decide ou escala para Gestor do CC</div>
-                                        <div class="step-connector">↓ fallback</div>
-                                        <div class="approval-step"><span class="step-number">2</span><span class="person dynamic"><span class="person-avatar">GC</span> Gestor do CC</span></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Regra 3 -->
-                        <div class="rule-item">
-                            <div class="rule-collapsed" onclick="toggleRule(this)">
-                                <span class="collapse-arrow">▸</span>
-                                <span class="rule-condition-text"><span class="connector">Se</span> tipo = <span class="val">Cartão Virtual</span> <span class="connector">e</span> valor ≤ <span class="val">R$ 2.000</span></span>
-                                <div class="rule-summary">
-                                    <span class="summary-pill">1 obrigatório</span>
-                                    <span class="summary-pill agent-pill">Agent + fallback</span>
-                                </div>
-                            </div>
-                            <div class="rule-expanded">
-                                <div class="block">
-                                    <div class="block-header">
-                                        <div class="block-icon req">📎</div>
-                                        <span class="block-title">Requisitos</span>
-                                        <span class="block-badge req">1 obrigatório</span>
-                                    </div>
-                                    <div class="campos-group"><span class="group-label">Dados da Solicitação</span><span class="field">Justificativa</span></div>
-                                </div>
-                                <div class="block">
-                                    <div class="block-header">
-                                        <div class="block-icon aprov">✓</div>
-                                        <span class="block-title">Aprovação</span>
-                                        <span class="block-badge neutral">Agent + fallback</span>
-                                    </div>
-                                    <div class="approval-chain">
-                                        <div class="approval-step"><span class="step-number">1</span><span class="person agent"><span class="person-avatar">🤖</span> Policy Agent</span></div>
-                                        <div class="fallback-hint">Agent decide ou escala para Gestor Direto</div>
-                                        <div class="step-connector">↓ fallback</div>
-                                        <div class="approval-step"><span class="step-number">2</span><span class="person dynamic"><span class="person-avatar">↻</span> Gestor Direto</span></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Regra 4 -->
-                        <div class="rule-item">
-                            <div class="rule-collapsed" onclick="toggleRule(this)">
-                                <span class="collapse-arrow">▸</span>
-                                <span class="rule-condition-text"><span class="connector">Se</span> tipo = <span class="val">Cartão Físico</span></span>
-                                <div class="rule-summary">
-                                    <span class="summary-pill">3 obrigatórios</span>
-                                    <span class="summary-pill">1 nível</span>
-                                </div>
-                            </div>
-                            <div class="rule-expanded">
-                                <div class="block">
-                                    <div class="block-header">
-                                        <div class="block-icon req">📎</div>
-                                        <span class="block-title">Requisitos</span>
-                                        <span class="block-badge req">3 obrigatórios</span>
-                                    </div>
-                                    <div class="campos-group"><span class="group-label">Dados da Solicitação</span><span class="field">Justificativa</span><span class="field">Centro de Custo</span><span class="field">Aprovação Especial</span></div>
-                                </div>
-                                <div class="block">
-                                    <div class="block-header">
-                                        <div class="block-icon aprov">✓</div>
-                                        <span class="block-title">Aprovação</span>
-                                        <span class="block-badge green">1 nível</span>
-                                    </div>
-                                    <div class="approval-chain">
-                                        <div class="approval-step"><span class="step-number">1</span><span class="person"><span class="person-avatar">GC</span> Gestor do CC</span></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="policy-actions">
-                            <button class="btn btn-secondary" onclick="event.stopPropagation(); openSlideOver('solicitacoes')">
-                                <span>⚙️</span> <span>Gerenciar Fluxo</span>
-                            </button>
-                            <button class="btn btn-primary" onclick="event.stopPropagation()">
-                                <span>🔬</span> <span>Testar Regras</span>
-                            </button>
-                        </div>
+                      <div class="wf-builder" role="list">
+                        <div class="wf-block" role="listitem" style="margin-bottom:0;"><div class="wf-card" style="background:var(--white);border:1px solid var(--gray-200);overflow:hidden;"><div onclick="var d=this.nextElementSibling;var open=d.style.display!=='none';d.style.display=open?'none':'block';this.querySelector('.flags-toggle').textContent=open?'Detalhes ▸':'▾ Fechar'" style="display:flex;align-items:center;justify-content:space-between;padding:10px 16px;cursor:pointer;min-height:40px;"><div style="display:flex;align-items:center;gap:8px;"><span style="font-size:14px;">🛡️</span><span style="font-size:12px;font-weight:600;color:var(--gray-600);letter-spacing:0.5px;">Flags e Controles Globais</span><span style="color:var(--gray-300);">·</span><span style="font-size:13px;color:var(--gray-500);">2 ativas</span></div><span class="flags-toggle" style="font-size:13px;color:#E55A20;cursor:pointer;">Detalhes ▸</span></div><div style="display:none;padding:0 16px 14px;border-top:1px solid var(--gray-100);"><div style="font-size:12px;color:var(--gray-500);font-style:italic;margin:12px 0 10px;">Avaliadas antes de qualquer workflow.</div><div style="font-size:12px;line-height:1.8;"><div><span style="display:inline-block;min-width:65px;color:#DC2626;font-weight:500;">Bloqueio</span><span style="color:var(--gray-600);">Limite mensal de cartão atingido</span></div><div><span style="display:inline-block;min-width:65px;color:var(--gray-500);font-weight:500;">Alertar</span><span style="color:var(--gray-600);">Solicitação duplicada em 24h</span></div></div></div></div></div>
+                        <div class="wf-connector"><div class="wf-connector-line" style="border-color:#D97706;"></div><div class="wf-connector-arrow" style="color:#D97706;">▼</div></div>
+                        <div class="wf-block wf-trigger" role="listitem"><div class="wf-card"><div class="wf-card-header"><div class="wf-card-header-left"><span class="wf-icon">🟢</span><span class="wf-label" style="color:var(--success-green);">Trigger</span><span class="wf-desc">Quando <strong>Solicitação de Cartão</strong> ocorre</span></div></div></div></div>
+                        <div class="wf-connector"><div class="wf-connector-line"></div><div class="wf-connector-arrow">▼</div></div>
+                        <div class="wf-block wf-condition" role="listitem"><div class="wf-card"><div class="wf-card-header"><div class="wf-card-header-left"><span class="wf-icon">🔵</span><span class="wf-label" style="color:var(--info-blue);">Condição</span></div><div class="wf-card-actions"><button class="wf-card-action">✏️</button><button class="wf-card-action">🗑</button></div></div><div class="wf-card-body"><div class="wf-cond-row"><span class="wf-cond-kw">SE</span><span class="wf-cond-field">Valor total</span><span>≥</span><span class="wf-cond-field">R$ 2.000</span></div><div class="wf-require"><div class="wf-require-label">Exigir</div><span class="wf-chip">Justificativa</span><span class="wf-chip">Categoria</span><span class="wf-chip">Centro de Custo</span></div><div class="wf-action-badge wf-action-escalate">↗ Escalar para gestor</div><div class="v11-blocks"><div class="v11-block req"><div class="v11-block-header"><div class="v11-block-icon req">📎</div><span class="v11-block-title">Requisitos</span><span class="v11-block-badge req">3 obrigatórios</span></div><div class="template-row req-tpl"><span class="template-row-icon">⬡</span><span class="template-row-name">Conjunto "Fiscal Brasil"</span><span class="template-row-usage">Usado em 3 regras</span></div></div><div class="v11-block aprov"><div class="v11-block-header"><div class="v11-block-icon aprov">✓</div><span class="v11-block-title">Aprovação</span><span class="v11-block-badge aprov">2 níveis</span></div><div class="template-row aprov-tpl"><span class="template-row-icon">⬡</span><span class="template-row-name">Fluxo "Agent + Gestor"</span><span class="template-row-usage">Usado em 2 regras</span></div></div></div></div></div></div>
+                        <div class="wf-connector"><div class="wf-connector-line"></div><div class="wf-connector-arrow">▼</div></div>
+                        <div class="wf-block wf-condition" role="listitem"><div class="wf-card"><div class="wf-card-header"><div class="wf-card-header-left"><span class="wf-icon">🔵</span><span class="wf-label" style="color:var(--info-blue);">Condição</span></div><div class="wf-card-actions"><button class="wf-card-action">✏️</button><button class="wf-card-action">🗑</button></div></div><div class="wf-card-body"><div class="wf-cond-row"><span class="wf-cond-kw">SE</span><span class="wf-cond-field">Valor total</span><span>&lt;</span><span class="wf-cond-field">R$ 2.000</span></div><div class="wf-require"><div class="wf-require-label">Exigir</div><span class="wf-chip">Categoria</span><span class="wf-chip">Centro de Custo</span></div><div class="wf-action-badge wf-action-agent">🤖 Policy Agent decide</div><div class="v11-blocks"><div class="v11-block req"><div class="v11-block-header"><div class="v11-block-icon req">📎</div><span class="v11-block-title">Requisitos</span><span class="v11-block-badge req">2 obrigatórios</span></div><div class="template-row req-tpl"><span class="template-row-icon">⬡</span><span class="template-row-name">Conjunto "Fiscal Brasil"</span><span class="template-row-usage">Usado em 3 regras</span></div></div><div class="v11-block aprov"><div class="v11-block-header"><div class="v11-block-icon aprov">✓</div><span class="v11-block-title">Aprovação</span><span class="v11-block-badge aprov">Auto</span></div><div class="template-row aprov-tpl"><span class="template-row-icon">⬡</span><span class="template-row-name">Fluxo "Auto-aprovação"</span><span class="template-row-usage">Usado em 2 regras</span></div></div></div></div></div></div>
+                        <div class="wf-connector"><div class="wf-connector-line"></div><div class="wf-connector-arrow">▼</div></div>
+                        <div class="wf-block wf-condition" role="listitem"><div class="wf-card"><div class="wf-card-header"><div class="wf-card-header-left"><span class="wf-icon">🔵</span><span class="wf-label" style="color:var(--gray-700);">Condição</span></div><div class="wf-card-actions"><button class="wf-card-action">✏️</button><button class="wf-card-action">🗑</button></div></div><div class="wf-card-body"><div class="wf-cond-row"><span class="wf-cond-kw">SE</span><span class="wf-cond-field">📋 Código do Projeto</span><span>contém</span><span class="wf-cond-field">PROJ-MKT</span></div><div class="wf-action-badge wf-action-escalate">↗ Escalar Dir. Marketing</div><div class="v11-blocks"><div class="v11-block aprov"><div class="v11-block-header"><div class="v11-block-icon aprov">✓</div><span class="v11-block-title">Aprovação</span><span class="v11-block-badge aprov">2 níveis</span></div><div class="template-row aprov-tpl"><span class="template-row-icon">⬡</span><span class="template-row-name">Fluxo "Dupla Aprovação"</span><span class="template-row-usage">Usado em 1 regra</span></div></div></div></div></div></div>
+                        <div class="wf-connector"><div class="wf-connector-line"></div><div class="wf-connector-arrow">▼</div></div>
+                        <div class="wf-block wf-condition" role="listitem"><div class="wf-card"><div class="wf-card-header"><div class="wf-card-header-left"><span class="wf-icon">🔵</span><span class="wf-label" style="color:var(--gray-700);">Condição</span></div><div class="wf-card-actions"><button class="wf-card-action">✏️</button><button class="wf-card-action">🗑</button></div></div><div class="wf-card-body"><div class="wf-cond-row"><span class="wf-cond-kw">SE</span><span class="wf-cond-field">📋 Aprovação Especial</span><span>=</span><span class="wf-cond-field">Sim</span></div><div class="wf-action-badge wf-action-escalate">↗ Escalar Diretor do CC</div><div class="v11-blocks"><div class="v11-block aprov"><div class="v11-block-header"><div class="v11-block-icon aprov">✓</div><span class="v11-block-title">Aprovação</span><span class="v11-block-badge aprov">2 níveis</span></div><div class="template-row aprov-tpl"><span class="template-row-icon">⬡</span><span class="template-row-name">Fluxo "Dupla Aprovação"</span><span class="template-row-usage">Usado em 2 regras</span></div></div></div></div></div></div>
+                        <div class="wf-connector"><div class="wf-connector-line"></div><div class="wf-connector-arrow">▼</div></div>
+                        <div class="wf-add-block"><button class="wf-add-btn" onclick="showToast('Adicionar bloco em desenvolvimento.','info')">+ Adicionar bloco</button></div>
+                        <div class="wf-connector"><div class="wf-connector-line"></div><div class="wf-connector-arrow">▼</div></div>
+                        <div class="wf-block wf-fallback" role="listitem"><div class="wf-card"><div class="wf-card-header"><div class="wf-card-header-left"><span class="wf-icon">🟡</span><span class="wf-label" style="color:var(--warning-yellow);">Fallback</span><span class="wf-desc">Se nenhuma condição é atendida</span></div></div><div class="wf-card-body"><div class="wf-action-badge wf-action-approve">✓ Aprovar automaticamente</div></div></div></div>
+                        <div class="wf-connector"><div class="wf-connector-line"></div><div class="wf-connector-arrow">▼</div></div>
+                        <div class="wf-end" role="listitem">✅ Workflow concluído</div>
+                      </div>
+                      <div class="audit-meta">Última edição: 20/03/2026 por André A. · <span class="audit-meta-ref">POL-2026-03-0015</span></div>
+                      <div class="accordion-actions">
+                        <button class="btn btn-secondary btn-sm" onclick="openSlideover('solicitacoes')">Editar Workflow</button>
+                        <button class="btn btn-ghost btn-sm" onclick="showToast('Simulação em desenvolvimento.','info')">Testar Regras</button>
+                      </div>
                     </div>
                 </div>
 
@@ -4118,168 +3906,26 @@ select.form-input {
                         </svg>
                     </div>
                     <div class="accordion-body">
-                        <!-- Flags Ativas -->
-                        <div class="wf-flags-active">
-                            <div class="wf-flags-active-title">🚩 Flags Ativas</div>
-                            <div class="wf-flag-item">🚩 Solicitação acima do limite mensal do colaborador <span class="flag-type bloqueio">Bloqueio</span></div>
-                            <div class="wf-flag-item">🚩 Reembolso retroativo &gt; 30 dias <span class="flag-type alerta">Alerta</span></div>
-                        </div>
-
-                        <!-- Trigger -->
-                        <div class="wf-trigger">
-                            <div class="wf-trigger-icon">⚡</div>
-                            <div class="wf-trigger-text">Quando solicitação de reembolso é criada</div>
-                            <div class="wf-trigger-badge">Trigger</div>
-                        </div>
-
-                        <!-- Regra 1 -->
-                        <div class="rule-item">
-                            <div class="rule-collapsed" onclick="toggleRule(this)">
-                                <span class="collapse-arrow">▸</span>
-                                <span class="rule-condition-text"><span class="connector">Se</span> tipo = <span class="val">Reembolso de Despesa</span> <span class="connector">e</span> categoria ∈ {<span class="val">Alimentação</span>, <span class="val">Transporte</span>, <span class="val">Abastecimento</span>} <span class="connector">e</span> valor ≤ <span class="val">R$ 500</span></span>
-                                <div class="rule-summary">
-                                    <span class="summary-pill">2 obrigatórios</span>
-                                    <span class="summary-pill agent-pill">Agent + fallback</span>
-                                </div>
-                            </div>
-                            <div class="rule-expanded">
-                                <div class="block">
-                                    <div class="block-header">
-                                        <div class="block-icon req">📎</div>
-                                        <span class="block-title">Requisitos</span>
-                                        <span class="block-badge req">2 obrigatórios</span>
-                                    </div>
-                                    <div class="campos-group"><span class="group-label">Dados da Solicitação</span><span class="field">Comprovante</span><span class="field">Categoria</span></div>
-                                </div>
-                                <div class="block">
-                                    <div class="block-header">
-                                        <div class="block-icon aprov">✓</div>
-                                        <span class="block-title">Aprovação</span>
-                                        <span class="block-badge neutral">Agent + fallback</span>
-                                    </div>
-                                    <div class="approval-chain">
-                                        <div class="approval-step"><span class="step-number">1</span><span class="person agent"><span class="person-avatar">🤖</span> Policy Agent</span></div>
-                                        <div class="fallback-hint">Agent decide ou escala para Gestor Direto</div>
-                                        <div class="step-connector">↓ fallback</div>
-                                        <div class="approval-step"><span class="step-number">2</span><span class="person dynamic"><span class="person-avatar">↻</span> Gestor Direto</span></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Regra 2 -->
-                        <div class="rule-item">
-                            <div class="rule-collapsed" onclick="toggleRule(this)">
-                                <span class="collapse-arrow">▸</span>
-                                <span class="rule-condition-text"><span class="connector">Se</span> tipo = <span class="val">Reembolso de Despesa</span> <span class="connector">e</span> valor &gt; <span class="val">R$ 500</span></span>
-                                <div class="rule-summary">
-                                    <span class="summary-pill">4 obrigatórios</span>
-                                    <span class="summary-pill">1 nível</span>
-                                </div>
-                            </div>
-                            <div class="rule-expanded">
-                                <div class="block">
-                                    <div class="block-header">
-                                        <div class="block-icon req">📎</div>
-                                        <span class="block-title">Requisitos</span>
-                                        <span class="block-badge req">4 obrigatórios</span>
-                                        <span class="block-badge opt">1 opcional</span>
-                                    </div>
-                                    <div class="campos-group"><span class="group-label">Dados da Solicitação</span><span class="field">Comprovante</span><span class="field">Justificativa</span><span class="field">Categoria</span><span class="field">Centro de Custo</span></div>
-                                    <div class="opt-divider">
-                                        <div class="campos-group"><span class="group-label">Personalizados</span><span class="field opcional">Código do Projeto</span></div>
-                                    </div>
-                                </div>
-                                <div class="block">
-                                    <div class="block-header">
-                                        <div class="block-icon aprov">✓</div>
-                                        <span class="block-title">Aprovação</span>
-                                        <span class="block-badge green">1 nível</span>
-                                    </div>
-                                    <div class="approval-chain">
-                                        <div class="approval-step"><span class="step-number">1</span><span class="person"><span class="person-avatar">GC</span> Gestor do CC</span></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Regra 3 -->
-                        <div class="rule-item">
-                            <div class="rule-collapsed" onclick="toggleRule(this)">
-                                <span class="collapse-arrow">▸</span>
-                                <span class="rule-condition-text"><span class="connector">Se</span> tipo = <span class="val">Reembolso de KM Rodado</span></span>
-                                <div class="rule-summary">
-                                    <span class="summary-pill">3 obrigatórios</span>
-                                    <span class="summary-pill agent-pill">Agent + fallback</span>
-                                </div>
-                            </div>
-                            <div class="rule-expanded">
-                                <div class="block">
-                                    <div class="block-header">
-                                        <div class="block-icon req">📎</div>
-                                        <span class="block-title">Requisitos</span>
-                                        <span class="block-badge req">3 obrigatórios</span>
-                                    </div>
-                                    <div class="campos-group"><span class="group-label">Dados da Solicitação</span><span class="field">Distância percorrida</span><span class="field">Origem/Destino</span><span class="field">Justificativa</span></div>
-                                </div>
-                                <div class="block">
-                                    <div class="block-header">
-                                        <div class="block-icon aprov">✓</div>
-                                        <span class="block-title">Aprovação</span>
-                                        <span class="block-badge neutral">Agent + fallback</span>
-                                    </div>
-                                    <div class="approval-chain">
-                                        <div class="approval-step"><span class="step-number">1</span><span class="person agent"><span class="person-avatar">🤖</span> Policy Agent</span></div>
-                                        <div class="fallback-hint">Agent decide ou escala para Gestor do CC</div>
-                                        <div class="step-connector">↓ fallback</div>
-                                        <div class="approval-step"><span class="step-number">2</span><span class="person dynamic"><span class="person-avatar">GC</span> Gestor do CC</span></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Regra 4 -->
-                        <div class="rule-item">
-                            <div class="rule-collapsed" onclick="toggleRule(this)">
-                                <span class="collapse-arrow">▸</span>
-                                <span class="rule-condition-text"><span class="connector">Se</span> valor &gt; <span class="val">R$ 3.000</span> (qualquer tipo)</span>
-                                <div class="rule-summary">
-                                    <span class="summary-pill">5 obrigatórios</span>
-                                    <span class="summary-pill">2 níveis</span>
-                                </div>
-                            </div>
-                            <div class="rule-expanded">
-                                <div class="block">
-                                    <div class="block-header">
-                                        <div class="block-icon req">📎</div>
-                                        <span class="block-title">Requisitos</span>
-                                        <span class="block-badge req">5 obrigatórios</span>
-                                    </div>
-                                    <div class="campos-group"><span class="group-label">Dados da Solicitação</span><span class="field">Comprovante</span><span class="field">Justificativa</span><span class="field">Centro de Custo</span><span class="field">Código do Projeto</span><span class="field">Aprovação Especial</span></div>
-                                </div>
-                                <div class="block">
-                                    <div class="block-header">
-                                        <div class="block-icon aprov">✓</div>
-                                        <span class="block-title">Aprovação</span>
-                                        <span class="block-badge green">2 níveis</span>
-                                    </div>
-                                    <div class="approval-chain">
-                                        <div class="approval-step"><span class="step-number">1</span><span class="person"><span class="person-avatar">GC</span> Gestor do CC</span></div>
-                                        <div class="step-connector">↓ depois</div>
-                                        <div class="approval-step"><span class="step-number">2</span><span class="person"><span class="person-avatar">DF</span> Diretor Financeiro</span></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="policy-actions">
-                            <button class="btn btn-secondary" onclick="event.stopPropagation(); openSlideOver('reembolso-solic')">
-                                <span>⚙️</span> <span>Gerenciar Fluxo</span>
-                            </button>
-                            <button class="btn btn-primary" onclick="event.stopPropagation()">
-                                <span>🔬</span> <span>Testar Regras</span>
-                            </button>
-                        </div>
+                      <div class="wf-builder" role="list">
+                        <div class="wf-block" role="listitem" style="margin-bottom:0;"><div class="wf-card" style="background:var(--white);border:1px solid var(--gray-200);overflow:hidden;"><div onclick="var d=this.nextElementSibling;var open=d.style.display!=='none';d.style.display=open?'none':'block';this.querySelector('.flags-toggle').textContent=open?'Detalhes ▸':'▾ Fechar'" style="display:flex;align-items:center;justify-content:space-between;padding:10px 16px;cursor:pointer;min-height:40px;"><div style="display:flex;align-items:center;gap:8px;"><span style="font-size:14px;">🛡️</span><span style="font-size:12px;font-weight:600;color:var(--gray-600);letter-spacing:0.5px;">Flags e Controles Globais</span><span style="color:var(--gray-300);">·</span><span style="font-size:13px;color:var(--gray-500);">2 ativas</span></div><span class="flags-toggle" style="font-size:13px;color:#E55A20;cursor:pointer;">Detalhes ▸</span></div><div style="display:none;padding:0 16px 14px;border-top:1px solid var(--gray-100);"><div style="font-size:12px;line-height:1.8;margin-top:10px;"><div><span style="display:inline-block;min-width:65px;color:#DC2626;font-weight:500;">Bloqueio</span><span style="color:var(--gray-600);">Limite mensal do colaborador atingido</span></div><div><span style="display:inline-block;min-width:65px;color:var(--gray-500);font-weight:500;">Alertar</span><span style="color:var(--gray-600);">Reembolso retroativo > 30 dias</span></div></div></div></div></div>
+                        <div class="wf-connector"><div class="wf-connector-line" style="border-color:#D97706;"></div><div class="wf-connector-arrow" style="color:#D97706;">▼</div></div>
+                        <div class="wf-block wf-trigger" role="listitem"><div class="wf-card"><div class="wf-card-header"><div class="wf-card-header-left"><span class="wf-icon">🟢</span><span class="wf-label" style="color:var(--success-green);">Trigger</span><span class="wf-desc">Quando <strong>Solicitação de Reembolso</strong> ocorre</span></div></div></div></div>
+                        <div class="wf-connector"><div class="wf-connector-line"></div><div class="wf-connector-arrow">▼</div></div>
+                        <div class="wf-block wf-condition" role="listitem"><div class="wf-card"><div class="wf-card-header"><div class="wf-card-header-left"><span class="wf-icon">🔵</span><span class="wf-label" style="color:var(--info-blue);">Condição</span></div><div class="wf-card-actions"><button class="wf-card-action">✏️</button><button class="wf-card-action">🗑</button></div></div><div class="wf-card-body"><div class="wf-cond-row"><span class="wf-cond-kw">SE</span><span class="wf-cond-field">Valor total</span><span>≥</span><span class="wf-cond-field">R$ 500</span></div><div class="wf-require"><div class="wf-require-label">Exigir</div><span class="wf-chip">Comprovante</span><span class="wf-chip">Justificativa</span><span class="wf-chip">Categoria</span></div><div class="wf-action-badge wf-action-escalate">↗ Escalar para gestor</div><div class="v11-blocks"><div class="v11-block req"><div class="v11-block-header"><div class="v11-block-icon req">📎</div><span class="v11-block-title">Requisitos</span><span class="v11-block-badge req">3 obrigatórios</span></div><div class="template-row req-tpl"><span class="template-row-icon">⬡</span><span class="template-row-name">Conjunto "Reembolso Padrão"</span><span class="template-row-usage">Usado em 1 regra</span></div></div><div class="v11-block aprov"><div class="v11-block-header"><div class="v11-block-icon aprov">✓</div><span class="v11-block-title">Aprovação</span><span class="v11-block-badge aprov">2 níveis</span></div><div class="template-row aprov-tpl"><span class="template-row-icon">⬡</span><span class="template-row-name">Fluxo "Agent + Gestor"</span><span class="template-row-usage">Usado em 2 regras</span></div></div></div></div></div></div>
+                        <div class="wf-connector"><div class="wf-connector-line"></div><div class="wf-connector-arrow">▼</div></div>
+                        <div class="wf-block wf-condition" role="listitem"><div class="wf-card"><div class="wf-card-header"><div class="wf-card-header-left"><span class="wf-icon">🔵</span><span class="wf-label" style="color:var(--info-blue);">Condição</span></div><div class="wf-card-actions"><button class="wf-card-action">✏️</button><button class="wf-card-action">🗑</button></div></div><div class="wf-card-body"><div class="wf-cond-row"><span class="wf-cond-kw">SE</span><span class="wf-cond-field">Valor total</span><span>&lt;</span><span class="wf-cond-field">R$ 500</span></div><div class="wf-action-badge wf-action-agent">🤖 Policy Agent decide</div><div class="v11-blocks"><div class="v11-block aprov"><div class="v11-block-header"><div class="v11-block-icon aprov">✓</div><span class="v11-block-title">Aprovação</span><span class="v11-block-badge aprov">Auto</span></div><div class="template-row aprov-tpl"><span class="template-row-icon">⬡</span><span class="template-row-name">Fluxo "Auto-aprovação"</span><span class="template-row-usage">Usado em 2 regras</span></div></div></div></div></div></div>
+                        <div class="wf-connector"><div class="wf-connector-line"></div><div class="wf-connector-arrow">▼</div></div>
+                        <div class="wf-add-block"><button class="wf-add-btn" onclick="showToast('Adicionar bloco em desenvolvimento.','info')">+ Adicionar bloco</button></div>
+                        <div class="wf-connector"><div class="wf-connector-line"></div><div class="wf-connector-arrow">▼</div></div>
+                        <div class="wf-block wf-fallback" role="listitem"><div class="wf-card"><div class="wf-card-header"><div class="wf-card-header-left"><span class="wf-icon">🟡</span><span class="wf-label" style="color:var(--warning-yellow);">Fallback</span><span class="wf-desc">Se nenhuma condição é atendida</span></div></div><div class="wf-card-body"><div class="wf-action-badge wf-action-approve">✓ Aprovar automaticamente</div></div></div></div>
+                        <div class="wf-connector"><div class="wf-connector-line"></div><div class="wf-connector-arrow">▼</div></div>
+                        <div class="wf-end" role="listitem">✅ Workflow concluído</div>
+                      </div>
+                      <div class="audit-meta">Última edição: 18/03/2026 por Matheus R. · <span class="audit-meta-ref">POL-2026-03-0012</span></div>
+                      <div class="accordion-actions">
+                        <button class="btn btn-secondary btn-sm" onclick="openSlideover('solreembolso')">Editar Workflow</button>
+                        <button class="btn btn-ghost btn-sm" onclick="showToast('Simulação em desenvolvimento.','info')">Testar Regras</button>
+                      </div>
                     </div>
                 </div>
 
@@ -4302,26 +3948,27 @@ select.form-input {
                         </svg>
                     </div>
                     <div class="accordion-body">
-                        <!-- Flags Ativas -->
-                        <div class="wf-flags-active">
-                            <div class="wf-flags-active-title">🚩 Flags Ativas</div>
-                            <div class="wf-flag-item">🚩 Recibo duplicado <span class="flag-type bloqueio">Bloqueio</span></div>
-                            <div class="wf-flag-item">🚩 Gasto fora do horário comercial <span class="flag-type alerta">Alerta</span></div>
-                            <div class="wf-flag-item">🚩 Merchant na lista restrita <span class="flag-type bloqueio">Bloqueio</span></div>
-                        </div>
-
-                        <!-- Trigger -->
-                        <div class="wf-trigger">
-                            <div class="wf-trigger-icon">⚡</div>
-                            <div class="wf-trigger-text">Quando despesa de cartão é registrada</div>
-                            <div class="wf-trigger-badge">Trigger</div>
-                        </div>
-
-                        <!-- Regra 1 -->
-                        <div class="rule-item">
-                            <div class="rule-collapsed" onclick="toggleRule(this)">
-                                <span class="collapse-arrow">▸</span>
-                                <span class="rule-condition-text"><span class="connector">Se</span> valor ≤ <span class="val">R$ 200</span></span>
+                      <div class="wf-builder" role="list">
+                        <div class="wf-block" role="listitem" style="margin-bottom:0;"><div class="wf-card" style="background:var(--white);border:1px solid var(--gray-200);overflow:hidden;"><div onclick="var d=this.nextElementSibling;var open=d.style.display!=='none';d.style.display=open?'none':'block';this.querySelector('.flags-toggle').textContent=open?'Detalhes ▸':'▾ Fechar'" style="display:flex;align-items:center;justify-content:space-between;padding:10px 16px;cursor:pointer;min-height:40px;"><div style="display:flex;align-items:center;gap:8px;"><span style="font-size:14px;">🛡️</span><span style="font-size:12px;font-weight:600;color:var(--gray-600);letter-spacing:0.5px;">Flags e Controles Globais</span><span style="color:var(--gray-300);">·</span><span style="font-size:13px;color:var(--gray-500);">3 ativas</span></div><span class="flags-toggle" style="font-size:13px;color:#E55A20;cursor:pointer;">Detalhes ▸</span></div><div style="display:none;padding:0 16px 14px;border-top:1px solid var(--gray-100);"><div style="font-size:12px;line-height:1.8;margin-top:10px;"><div><span style="display:inline-block;min-width:65px;color:#DC2626;font-weight:500;">Bloqueio</span><span style="color:var(--gray-600);">Recibo duplicado · Merchant na lista restrita</span></div><div><span style="display:inline-block;min-width:65px;color:var(--gray-500);font-weight:500;">Alertar</span><span style="color:var(--gray-600);">Gasto fora do horário comercial</span></div></div></div></div></div>
+                        <div class="wf-connector"><div class="wf-connector-line" style="border-color:#D97706;"></div><div class="wf-connector-arrow" style="color:#D97706;">▼</div></div>
+                        <div class="wf-block wf-trigger" role="listitem"><div class="wf-card"><div class="wf-card-header"><div class="wf-card-header-left"><span class="wf-icon">🟢</span><span class="wf-label" style="color:var(--success-green);">Trigger</span><span class="wf-desc">Quando <strong>Despesa de Cartão</strong> ocorre</span></div></div></div></div>
+                        <div class="wf-connector"><div class="wf-connector-line"></div><div class="wf-connector-arrow">▼</div></div>
+                        <div class="wf-block wf-condition" role="listitem"><div class="wf-card"><div class="wf-card-header"><div class="wf-card-header-left"><span class="wf-icon">🔵</span><span class="wf-label" style="color:var(--info-blue);">Condição</span></div><div class="wf-card-actions"><button class="wf-card-action">✏️</button><button class="wf-card-action">🗑</button></div></div><div class="wf-card-body"><div class="wf-cond-row"><span class="wf-cond-kw">SE</span><span class="wf-cond-field">Valor total</span><span>≥</span><span class="wf-cond-field">R$ 1.000</span></div><div class="wf-require"><div class="wf-require-label">Exigir</div><span class="wf-chip">Comprovante</span><span class="wf-chip">Categoria</span><span class="wf-chip">Centro de Custo</span><span class="wf-chip">Justificativa</span></div><div class="wf-action-badge wf-action-escalate">↗ Escalar para gestor</div><div class="v11-blocks"><div class="v11-block req"><div class="v11-block-header"><div class="v11-block-icon req">📎</div><span class="v11-block-title">Requisitos</span><span class="v11-block-badge req">4 obrigatórios</span></div><div class="template-row req-tpl"><span class="template-row-icon">⬡</span><span class="template-row-name">Conjunto "Fiscal Brasil"</span><span class="template-row-usage">Usado em 3 regras</span></div></div><div class="v11-block aprov"><div class="v11-block-header"><div class="v11-block-icon aprov">✓</div><span class="v11-block-title">Aprovação</span><span class="v11-block-badge aprov">2 níveis</span></div><div class="template-row aprov-tpl"><span class="template-row-icon">⬡</span><span class="template-row-name">Fluxo "Agent + Gestor"</span><span class="template-row-usage">Usado em 2 regras</span></div></div></div></div></div></div>
+                        <div class="wf-connector"><div class="wf-connector-line"></div><div class="wf-connector-arrow">▼</div></div>
+                        <div class="wf-block wf-condition" role="listitem"><div class="wf-card"><div class="wf-card-header"><div class="wf-card-header-left"><span class="wf-icon">🔵</span><span class="wf-label" style="color:var(--info-blue);">Condição</span></div><div class="wf-card-actions"><button class="wf-card-action">✏️</button><button class="wf-card-action">🗑</button></div></div><div class="wf-card-body"><div class="wf-cond-row"><span class="wf-cond-kw">SE</span><span class="wf-cond-field">Valor total</span><span>&lt;</span><span class="wf-cond-field">R$ 1.000</span></div><div class="wf-require"><div class="wf-require-label">Exigir</div><span class="wf-chip">Categoria</span><span class="wf-chip">Centro de Custo</span></div><div class="wf-action-badge wf-action-agent">🤖 Policy Agent decide</div><div class="v11-blocks"><div class="v11-block req"><div class="v11-block-header"><div class="v11-block-icon req">📎</div><span class="v11-block-title">Requisitos</span><span class="v11-block-badge req">2 obrigatórios</span></div><div class="template-row req-tpl"><span class="template-row-icon">⬡</span><span class="template-row-name">Conjunto "Fiscal Brasil"</span><span class="template-row-usage">Usado em 3 regras</span></div></div><div class="v11-block aprov"><div class="v11-block-header"><div class="v11-block-icon aprov">✓</div><span class="v11-block-title">Aprovação</span><span class="v11-block-badge aprov">Auto</span></div><div class="template-row aprov-tpl"><span class="template-row-icon">⬡</span><span class="template-row-name">Fluxo "Auto-aprovação"</span><span class="template-row-usage">Usado em 2 regras</span></div></div></div></div></div></div>
+                        <div class="wf-connector"><div class="wf-connector-line"></div><div class="wf-connector-arrow">▼</div></div>
+                        <div class="wf-add-block"><button class="wf-add-btn" onclick="showToast('Adicionar bloco em desenvolvimento.','info')">+ Adicionar bloco</button></div>
+                        <div class="wf-connector"><div class="wf-connector-line"></div><div class="wf-connector-arrow">▼</div></div>
+                        <div class="wf-block wf-fallback" role="listitem"><div class="wf-card"><div class="wf-card-header"><div class="wf-card-header-left"><span class="wf-icon">🟡</span><span class="wf-label" style="color:var(--warning-yellow);">Fallback</span><span class="wf-desc">Se nenhuma condição é atendida</span></div></div><div class="wf-card-body"><div class="wf-action-badge wf-action-approve">✓ Aprovar automaticamente</div></div></div></div>
+                        <div class="wf-connector"><div class="wf-connector-line"></div><div class="wf-connector-arrow">▼</div></div>
+                        <div class="wf-end" role="listitem">✅ Workflow concluído</div>
+                      </div>
+                      <div class="audit-meta">Última edição: 22/03/2026 por Camila S. · <span class="audit-meta-ref">POL-2026-03-0018</span></div>
+                      <div class="accordion-actions">
+                        <button class="btn btn-secondary btn-sm" onclick="openSlideover('cartao')">Editar Workflow</button>
+                        <button class="btn btn-ghost btn-sm" onclick="showToast('Simulação em desenvolvimento.','info')">Testar Regras</button>
+                      </div>
+                    <!-- REPLACE-MARKER-END-CARTAO -->
                                 <div class="rule-summary">
                                     <span class="summary-pill">1 obrigatório</span>
                                     <span class="summary-pill agent-pill">Agent + fallback</span>
@@ -8533,7 +8180,7 @@ function toggleSecondaryFilters() {
                             row.className = 'template-row req-tpl';
                             row.setAttribute('data-template', map.req);
                             row.setAttribute('data-usage', map.reqUsage);
-                            row.onclick = function() { switchMainTab('templates', {stopPropagation:function(){}, target: document.querySelector('.nav-tab:nth-child(2)')}); };
+                            row.onclick = function() { switchTab('Templates'); };
                             row.innerHTML = '<span class="template-row-icon">⬡</span>' +
                                 '<span class="template-row-name">Conjunto "' + map.req + '"</span>' +
                                 '<span class="template-row-usage">Usado em ' + map.reqUsage + ' regra' + (map.reqUsage > 1 ? 's' : '') + '</span>';
@@ -8544,7 +8191,7 @@ function toggleSecondaryFilters() {
                             row.className = 'template-row aprov-tpl';
                             row.setAttribute('data-template', map.aprov);
                             row.setAttribute('data-usage', map.aprovUsage);
-                            row.onclick = function() { switchMainTab('templates', {stopPropagation:function(){}, target: document.querySelector('.nav-tab:nth-child(2)')}); };
+                            row.onclick = function() { switchTab('Templates'); };
                             row.innerHTML = '<span class="template-row-icon">⬡</span>' +
                                 '<span class="template-row-name">Fluxo "' + map.aprov + '"</span>' +
                                 '<span class="template-row-usage">' + (map.aprovUsage > 0 ? 'Usado em ' + map.aprovUsage + ' regra' + (map.aprovUsage > 1 ? 's' : '') : 'Não usado') + '</span>';
