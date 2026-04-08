@@ -400,7 +400,6 @@ a:hover { text-decoration: underline; }
             <th>Tipo</th>
             <th onclick="sortBy('value')">Valor <span class="sort-arrow" id="sort-value">↕</span></th>
             <th>Recomendação</th>
-            <th onclick="sortBy('conf')">Conf. <span class="sort-arrow" id="sort-conf">↕</span></th>
             <th>Status</th>
           </tr></thead>
           <tbody id="tableBody"></tbody>
@@ -759,7 +758,7 @@ function renderTable() {
     html += '<td>' + e.type + '</td>';
     html += '<td>' + valStr + '</td>';
     html += '<td><span class="rec-badge ' + recBadgeClass + '">' + recLabel + '</span></td>';
-    html += '<td class="confidence">' + e.conf + '%</td>';
+    // Confiança removida
     html += '<td><span class="status-badge ' + statusClass + '">' + e.status + '</span></td>';
     html += '</tr>';
   });
@@ -868,7 +867,7 @@ function openSlideover(idx) {
 
   // Agent Analysis
   h += '<div class="so-section"><div class="so-section-title">🤖 Análise do Policy Agent</div><div class="agent-analysis">';
-  h += '<div class="analysis-rec"><div class="analysis-rec-badge ' + recClass + '">' + recLabel + '</div><div><div class="analysis-confidence">' + e.conf + '%</div><div class="analysis-confidence-label">Confiança</div></div></div>';
+  h += '<div class="analysis-rec"><div class="analysis-rec-badge ' + recClass + '">' + recLabel + '</div></div>';
   h += '<div class="analysis-rationale">' + e.rationale + '</div>';
   h += '<div class="analysis-rule">Regra aplicada: <strong>' + e.rule + '</strong> · <a href="index.html">Ver regra →</a></div>';
 
@@ -989,7 +988,7 @@ function openSlideover(idx) {
   var isAISuggested = ['Restaurante Bistrô','iFood','Hotel Ibis'].indexOf(e.vendor) !== -1;
   h += '<div style="margin-bottom:12px;"><div style="font-size:13px;font-weight:500;color:var(--gray-700);margin-bottom:4px;">Código do Projeto <span style="color:#DC2626;">*</span></div>';
   h += '<div style="padding:8px 12px;border:1px solid var(--gray-200);border-radius:8px;font-size:14px;color:var(--gray-800);background:var(--white);">' + projCode + '</div>';
-  if (isAISuggested) h += '<div style="font-size:12px;color:#16A34A;margin-top:4px;">🤖 Sugerido pela IA (confiança: 91%)</div>';
+  if (isAISuggested) h += '<div style="font-size:12px;color:#16A34A;margin-top:4px;">🤖 Sugerido pela IA</div>';
   h += '</div>';
 
   // Field 2: Centro de Lucro
