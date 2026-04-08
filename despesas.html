@@ -191,6 +191,31 @@ a:hover { text-decoration: underline; }
 
 .so-section { margin-bottom: var(--spacing-lg); }
 .so-section-title { font-size: 14px; font-weight: 600; color: var(--gray-700); margin-bottom: var(--spacing-sm); }
+
+/* Valores */
+.so-values { display: flex; gap: var(--spacing-md); padding: var(--spacing-md); background: var(--gray-50); border: 1px solid var(--border); border-radius: var(--radius-lg); }
+.so-value-item { display: flex; flex-direction: column; gap: 2px; }
+.so-value-label { font-size: 11px; color: var(--gray-500); }
+.so-value-amount { font-size: 16px; font-weight: 600; color: var(--gray-800); }
+.so-value-total { margin-left: auto; }
+.so-value-total .so-value-amount { color: var(--gray-900); font-size: 18px; }
+
+/* Níveis de Aprovação */
+.approval-levels { display: flex; flex-direction: column; gap: 0; border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; }
+.approval-level { padding: 12px var(--spacing-md); border-bottom: 1px solid var(--gray-100); background: var(--white); }
+.approval-level:last-child { border-bottom: none; }
+.approval-level-header { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.approval-level-icon { width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; flex-shrink: 0; }
+.approval-level-icon.done { background: var(--success-green); color: white; font-size: 11px; }
+.approval-level-icon.current { background: var(--primary-orange); color: white; font-size: 8px; }
+.approval-level-icon.pending { background: var(--gray-200); color: var(--gray-400); font-size: 10px; }
+.approval-level-name { font-size: 13px; font-weight: 500; color: var(--gray-700); }
+.approval-level-status { font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 10px; }
+.approval-level-status.review { background: var(--warning-yellow-light); color: var(--warning-yellow); }
+.approval-level-date { font-size: 11px; color: var(--gray-400); margin-left: auto; }
+.approval-level-detail { margin-top: 4px; padding-left: 28px; }
+.approval-level-analysis { font-size: 12px; color: var(--gray-500); margin-top: 4px; padding-left: 28px; line-height: 1.5; }
+.approval-level-flag { font-size: 11px; color: var(--danger-red); margin-top: 4px; padding-left: 28px; }
 .so-label { font-size: 12px; font-weight: 600; color: var(--gray-500); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: var(--spacing-xs); }
 
 /* Agent analysis */
@@ -857,13 +882,41 @@ function openSlideover(idx) {
 
   let h = '';
 
+  // Valores
+  var taxas = Math.round(e.value * 0.038);
+  var total = e.value + taxas;
+  h += '<div class="so-section"><div class="so-values">';
+  h += '<div class="so-value-item"><span class="so-value-label">Despesa</span><span class="so-value-amount">' + formatBRL(e.value) + '</span></div>';
+  h += '<div class="so-value-item"><span class="so-value-label">Taxas</span><span class="so-value-amount">' + formatBRL(taxas) + '</span></div>';
+  h += '<div class="so-value-item so-value-total"><span class="so-value-label">Total</span><span class="so-value-amount">' + formatBRL(total) + '</span></div>';
+  h += '</div></div>';
+
   // Status progress
   const isDone = e.status === 'Aprovada' || e.status === 'Auto-aprovada' || e.status === 'Rejeitada';
   h += '<div class="so-section"><div class="status-progress">';
   h += '<div class="progress-step done"></div><div class="progress-step done"></div>';
   h += '<div class="progress-step ' + (isDone ? 'done' : 'current') + '"></div>';
   h += '<div class="progress-step ' + (isDone ? 'done' : '') + '"></div>';
-  h += '</div><div class="progress-labels"><span>Criada</span><span>Analisada</span><span>' + (isDone ? 'Concluída' : 'Pendente') + '</span><span>Registrada</span></div></div>';
+  h += '</div><div class="progress-labels"><span>Criada</span><span>Analisada</span><span>Pendente</span><span>Registrada</span></div></div>';
+
+  // Níveis de Aprovação
+  var approvers = ['Maria Silva','Carlos Oliveira','Ana Pereira','Roberto Santos'];
+  var approverIdx = Math.abs(e.vendor.charCodeAt(0)) % approvers.length;
+  h += '<div class="so-section"><div class="so-section-title">Níveis de Aprovação</div>';
+  h += '<div class="approval-levels">';
+  // IA Agent
+  h += '<div class="approval-level done"><div class="approval-level-header"><span class="approval-level-icon done">✓</span><span class="approval-level-name">IA Agent</span><span class="approval-level-status review">Revisar</span><span class="approval-level-date">' + e.date + '</span></div>';
+  h += '<div class="approval-level-detail"><span style="font-size:11px;color:var(--gray-400);">Policy Agent v2.1</span><span style="font-size:11px;color:var(--primary-orange);cursor:pointer;margin-left:8px;">Ver análise ▸</span></div>';
+  h += '<div class="approval-level-analysis">' + e.rationale + '</div>';
+  if (e.flags.length) { h += '<div class="approval-level-flag">🚩 ' + e.flags[0] + '</div>'; }
+  h += '</div>';
+  // Nível 1
+  h += '<div class="approval-level ' + (isDone ? 'done' : 'current') + '"><div class="approval-level-header"><span class="approval-level-icon ' + (isDone ? 'done' : 'current') + '">' + (isDone ? '✓' : '●') + '</span><span class="approval-level-name">Nível 1 — ' + approvers[approverIdx] + '</span><span class="approval-level-date">' + (isDone ? e.date : '') + '</span></div></div>';
+  // Nível 2
+  h += '<div class="approval-level pending"><div class="approval-level-header"><span class="approval-level-icon pending">○</span><span class="approval-level-name">Nível 2 — Sua aprovação</span><span style="font-size:11px;color:var(--gray-400);">(você)</span></div></div>';
+  // Nível 3
+  h += '<div class="approval-level pending"><div class="approval-level-header"><span class="approval-level-icon pending">○</span><span class="approval-level-name">Nível 3 — ' + approvers[(approverIdx+2)%approvers.length] + '</span></div></div>';
+  h += '</div></div>';
 
   // Agent Analysis
   h += '<div class="so-section"><div class="so-section-title">🤖 Análise do Policy Agent</div><div class="agent-analysis">';
