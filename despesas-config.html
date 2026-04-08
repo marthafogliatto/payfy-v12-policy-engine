@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Despesas — Configurações — Payfy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary-orange: #E55A20;
+  --primary-orange-dark: #C94E1A;
+  --primary-orange-light: #FFF3ED;
+  --success-green: #059669;
+  --success-green-light: #D1FAE5;
+  --warning-yellow: #D97706;
+  --warning-yellow-light: #FEF3C7;
+  --info-blue: #3B82F6;
+  --info-blue-light: #EFF6FF;
+  --purple: #8B5CF6;
+  --purple-light: #EDE9FE;
+  --danger-red: #DC2626;
+  --danger-red-light: #FEE2E2;
+  --gray-50: #FAFAFA;
+  --gray-100: #F5F5F5;
+  --gray-200: #E5E7EB;
+  --gray-300: #D1D5DB;
+  --gray-400: #9CA3AF;
+  --gray-500: #6B7280;
+  --gray-600: #4B5563;
+  --gray-700: #374151;
+  --gray-800: #1F2937;
+  --gray-900: #111827;
+  --white: #FFFFFF;
+  --border: #E5E7EB;
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --spacing-2xl: 48px;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+  --radius-2xl: 16px;
+  --shadow-sm: 0 1px 2px 0 rgba(0,0,0,0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1);
+  --shadow-xl: 0 20px 25px -5px rgba(0,0,0,0.1);
+  --scope-empresa-bg: var(--gray-100);
+  --scope-empresa-text: var(--gray-700);
+  --scope-cc-bg: var(--info-blue-light);
+  --scope-cc-text: #1E40AF;
+  --scope-time-bg: var(--purple-light);
+  --scope-time-text: #6B21A8;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--gray-50); color: var(--gray-800); font-size: 14px; line-height: 1.5; -webkit-font-smoothing: antialiased; }
+button { font-family: inherit; cursor: pointer; }
+a { color: var(--info-blue); text-decoration: none; }
+a:hover { text-decoration: underline; }
+:focus-visible { outline: 3px solid var(--info-blue); outline-offset: 2px; }
+
+.app-layout { display: flex; min-height: 100vh; }
+
+/* Sidebar */
+.main-sidebar { width: 212px; background: var(--white); border-right: 1px solid var(--border); display: flex; flex-direction: column; flex-shrink: 0; z-index: 100; }
+.sidebar-logo { padding: var(--spacing-lg); border-bottom: 1px solid var(--border); }
+.sidebar-logo-text { font-size: 24px; font-weight: 700; color: var(--primary-orange); letter-spacing: -0.5px; }
+.sidebar-nav { flex: 1; padding: var(--spacing-sm) 0; }
+.sidebar-item { display: flex; align-items: center; gap: var(--spacing-sm); padding: var(--spacing-md) var(--spacing-lg); font-size: 14px; font-weight: 500; color: var(--gray-600); border: none; background: none; width: 100%; text-align: left; border-left: 3px solid transparent; transition: all 0.15s; min-height: 44px; text-decoration: none; }
+.sidebar-item:hover { background: var(--gray-50); color: var(--gray-800); text-decoration: none; }
+.sidebar-item.active { border-left-color: var(--primary-orange); color: var(--gray-900); font-weight: 600; background: var(--primary-orange-light); }
+.sidebar-item svg { width: 20px; height: 20px; flex-shrink: 0; color: var(--gray-400); }
+.sidebar-item.active svg { color: var(--primary-orange); }
+.sidebar-separator { height: 1px; background: var(--border); margin: var(--spacing-sm) 0; }
+.sidebar-item.disabled, .settings-item.disabled { opacity: 0.5; color: var(--gray-400) !important; cursor: default !important; pointer-events: none; }
+.sidebar-item.disabled:hover, .settings-item.disabled:hover { background: transparent !important; }
+
+.settings-sidebar { width: 212px; background: var(--white); border-right: 1px solid var(--border); flex-shrink: 0; overflow-y: auto; padding: var(--spacing-lg) 0; }
+.settings-group-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--gray-400); padding: var(--spacing-md) var(--spacing-lg) var(--spacing-xs); }
+.settings-item { display: flex; align-items: center; padding: var(--spacing-sm) var(--spacing-lg); font-size: 13px; font-weight: 500; color: var(--gray-600); border: none; background: none; width: 100%; text-align: left; border-left: 3px solid transparent; transition: all 0.15s; min-height: 44px; text-decoration: none; }
+.settings-item:hover { background: var(--gray-50); color: var(--gray-800); text-decoration: none; }
+.settings-item.active { border-left-color: var(--primary-orange); color: var(--primary-orange); font-weight: 600; }
+.settings-separator { height: 1px; background: var(--border); margin: var(--spacing-sm) var(--spacing-lg); }
+
+.main-content { flex: 1; min-width: 0; overflow-y: auto; height: 100vh; }
+.content-wrapper { max-width: 1200px; padding: var(--spacing-xl) var(--spacing-2xl); }
+.page-header { margin-bottom: var(--spacing-lg); }
+.page-header-top { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--spacing-md); }
+.page-title { font-size: 28px; font-weight: 700; color: var(--gray-900); }
+.page-subtitle { font-size: 14px; color: var(--gray-500); margin-top: var(--spacing-xs); }
+.page-counter { font-size: 13px; color: var(--gray-400); margin-top: var(--spacing-xs); }
+
+.btn { display: inline-flex; align-items: center; gap: var(--spacing-sm); padding: var(--spacing-sm) var(--spacing-md); border-radius: var(--radius-lg); font-size: 14px; font-weight: 600; border: none; transition: all 0.2s; min-height: 44px; white-space: nowrap; }
+.btn-primary { background: var(--primary-orange); color: var(--white); }
+.btn-primary:hover { background: var(--primary-orange-dark); transform: translateY(-1px); box-shadow: var(--shadow-md); }
+.btn-secondary { background: var(--white); color: var(--gray-700); border: 1px solid var(--border); }
+.btn-secondary:hover { background: var(--gray-50); }
+.btn-ghost { background: transparent; color: var(--gray-600); padding: var(--spacing-sm); }
+.btn-ghost:hover { background: var(--gray-100); }
+.btn-sm { padding: var(--spacing-xs) var(--spacing-sm); font-size: 12px; min-height: 32px; border-radius: var(--radius-md); }
+.btn-danger { background: var(--danger-red-light); color: var(--danger-red); border: 1px solid var(--danger-red); }
+.btn-danger:hover { background: var(--danger-red); color: var(--white); }
+
+/* Custom field rows */
+.cf-list { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-2xl); padding: 0 var(--spacing-lg); box-shadow: var(--shadow-sm); }
+.cf-row { padding: 16px 0; border-bottom: 1px solid var(--gray-100); display: flex; align-items: flex-start; justify-content: space-between; }
+.cf-row:last-child { border-bottom: none; }
+.cf-row-left { flex: 1; min-width: 0; }
+.cf-name { font-weight: 600; color: var(--gray-900); font-size: 14px; margin-bottom: 4px; }
+.cf-badges { display: flex; gap: 8px; margin-bottom: 4px; flex-wrap: wrap; }
+.cf-badge { font-size: 12px; font-weight: 500; padding: 2px 8px; border-radius: 12px; }
+.cf-badge-type { color: #E55A20; background: #FFF7ED; }
+.cf-badge-required { color: #16A34A; background: #F0FDF4; }
+.cf-badge-optional { color: var(--gray-400); background: var(--gray-100); }
+.cf-badge-ai { color: #16A34A; background: #F0FDF4; }
+.cf-display-name { font-size: 13px; color: var(--gray-500); }
+.cf-support-text { font-size: 12px; color: var(--gray-400); font-style: italic; }
+.cf-actions { display: flex; gap: 4px; flex-shrink: 0; }
+.cf-action-btn { width: 32px; height: 32px; border: none; background: transparent; border-radius: 6px; color: var(--gray-400); font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+.cf-action-btn:hover { background: var(--gray-100); color: var(--gray-600); }
+
+.cf-add-btn { display: inline-flex; align-items: center; gap: var(--spacing-xs); background: none; border: none; color: var(--primary-orange); font-size: 14px; font-weight: 600; cursor: pointer; padding: var(--spacing-md) 0; font-family: inherit; }
+.cf-add-btn:hover { text-decoration: underline; }
+
+/* Modals */
+.modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); display: none; align-items: center; justify-content: center; z-index: 1000; backdrop-filter: blur(4px); }
+.modal-overlay.active { display: flex; }
+.modal { background: var(--white); border-radius: var(--radius-2xl); max-width: 520px; width: 90%; max-height: 90vh; overflow-y: auto; box-shadow: var(--shadow-xl); animation: modalIn 0.3s ease; }
+@keyframes modalIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+.modal-header { padding: var(--spacing-lg); border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: flex-start; }
+.modal-title { font-size: 20px; font-weight: 700; color: var(--gray-900); }
+.modal-subtitle { font-size: 13px; color: var(--gray-500); margin-top: var(--spacing-xs); }
+.modal-close { width: 44px; height: 44px; border-radius: var(--radius-md); background: var(--gray-100); border: none; display: flex; align-items: center; justify-content: center; font-size: 20px; color: var(--gray-600); flex-shrink: 0; }
+.modal-close:hover { background: var(--gray-200); }
+.modal-body { padding: var(--spacing-lg); }
+.modal-actions { display: flex; gap: var(--spacing-sm); justify-content: flex-end; margin-top: var(--spacing-lg); }
+
+/* Modal form fields */
+.cf-modal-field { margin-bottom: 16px; }
+.cf-modal-label { font-size: 13px; font-weight: 600; color: var(--gray-700); margin-bottom: 4px; display: block; }
+.cf-modal-hint { font-size: 12px; color: var(--gray-400); margin-top: 2px; }
+.cf-modal-input { width: 100%; padding: 8px 12px; border: 1px solid var(--gray-300); border-radius: 8px; font-size: 14px; font-family: Inter, sans-serif; min-height: 40px; }
+.cf-modal-input:focus { border-color: #E55A20; outline: none; box-shadow: 0 0 0 3px rgba(229,90,32,0.1); }
+.cf-modal-select { width: 100%; padding: 8px 12px; border: 1px solid var(--gray-300); border-radius: 8px; font-size: 14px; font-family: Inter, sans-serif; min-height: 40px; background: white; }
+.cf-modal-select:focus { border-color: #E55A20; outline: none; box-shadow: 0 0 0 3px rgba(229,90,32,0.1); }
+
+.cf-checkbox-row { display: flex; align-items: center; gap: var(--spacing-sm); margin-bottom: 16px; }
+.cf-checkbox-row input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--primary-orange); }
+.cf-checkbox-row label { font-size: 14px; color: var(--gray-700); font-weight: 500; cursor: pointer; }
+
+.cf-toggle-section { padding: 16px; background: var(--gray-50); border: 1px solid var(--gray-200); border-radius: 12px; margin-bottom: 16px; }
+.cf-toggle-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+.cf-toggle-title { font-weight: 500; color: var(--gray-800); font-size: 14px; }
+.cf-toggle-desc { font-size: 12px; color: var(--gray-500); line-height: 1.5; }
+
+.toggle { position: relative; width: 44px; height: 24px; flex-shrink: 0; }
+.toggle input { opacity: 0; width: 0; height: 0; }
+.toggle-slider { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: var(--gray-300); border-radius: 12px; cursor: pointer; transition: 0.3s; }
+.toggle-slider::before { content: ''; position: absolute; height: 18px; width: 18px; left: 3px; bottom: 3px; background: var(--white); border-radius: 50%; transition: 0.3s; }
+.toggle input:checked + .toggle-slider { background: var(--success-green); }
+.toggle input:checked + .toggle-slider::before { transform: translateX(20px); }
+
+.cf-preview { padding: 16px; background: var(--gray-50); border: 1px dashed var(--gray-300); border-radius: 8px; }
+.cf-preview-label { font-size: 12px; color: var(--gray-400); margin-bottom: 8px; font-weight: 500; text-transform: uppercase; }
+
+.cf-options-list { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; }
+.cf-option-row { display: flex; align-items: center; gap: 8px; }
+.cf-option-input { flex: 1; padding: 6px 10px; border: 1px solid var(--gray-300); border-radius: 6px; font-size: 13px; font-family: Inter, sans-serif; }
+.cf-option-input:focus { border-color: #E55A20; outline: none; }
+.cf-option-remove { width: 28px; height: 28px; border: none; background: transparent; color: var(--gray-400); font-size: 14px; cursor: pointer; border-radius: 4px; display: flex; align-items: center; justify-content: center; }
+.cf-option-remove:hover { background: var(--danger-red-light); color: var(--danger-red); }
+.cf-option-add { background: none; border: none; color: var(--primary-orange); font-size: 13px; font-weight: 600; cursor: pointer; padding: 4px 0; font-family: inherit; }
+.cf-option-add:hover { text-decoration: underline; }
+
+/* Delete modal */
+.delete-warning { display: flex; align-items: center; gap: var(--spacing-sm); padding: var(--spacing-md); background: var(--warning-yellow-light); border: 1px solid #FDE68A; border-radius: var(--radius-md); font-size: 13px; color: #92400E; margin-bottom: var(--spacing-md); }
+
+/* Toast */
+.toast-container { position: fixed; top: var(--spacing-lg); right: var(--spacing-lg); z-index: 2000; display: flex; flex-direction: column; gap: var(--spacing-sm); }
+.toast { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: var(--spacing-md) var(--spacing-lg); box-shadow: var(--shadow-lg); font-size: 13px; color: var(--gray-700); display: flex; align-items: center; gap: var(--spacing-sm); animation: toastIn 0.3s ease; min-width: 300px; }
+.toast.success { border-left: 4px solid var(--success-green); }
+.toast.warning { border-left: 4px solid var(--warning-yellow); }
+.toast.info { border-left: 4px solid var(--info-blue); }
+@keyframes toastIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
+
+/* Mobile */
+.hamburger-btn { display: none; width: 44px; height: 44px; border: none; background: var(--white); border-radius: var(--radius-md); font-size: 20px; color: var(--gray-600); align-items: center; justify-content: center; position: fixed; top: var(--spacing-md); left: var(--spacing-md); z-index: 200; box-shadow: var(--shadow-md); }
+.sidebar-backdrop { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.3); z-index: 250; }
+.sidebar-backdrop.active { display: block; }
+
+@media (max-width: 1024px) {
+  .hamburger-btn { display: flex; }
+  .main-sidebar, .settings-sidebar { position: fixed; top: 0; height: 100vh; z-index: 300; transform: translateX(-100%); transition: transform 0.3s; }
+  .main-sidebar { left: 0; } .settings-sidebar { left: 212px; }
+  .main-sidebar.open, .settings-sidebar.open { transform: translateX(0); }
+}
+@media (max-width: 768px) { .content-wrapper { padding: var(--spacing-md); padding-top: 60px; } .page-header-top { flex-direction: column; } }
+</style>
+</head>
+<body>
+
+<div class="toast-container" id="toastContainer" aria-live="polite"></div>
+<div class="sidebar-backdrop" id="sidebarBackdrop" onclick="closeSidebars()"></div>
+<button class="hamburger-btn" onclick="toggleSidebars()" aria-label="Abrir menu">&#9776;</button>
+
+<div class="app-layout">
+  <!-- MAIN SIDEBAR -->
+  <nav class="main-sidebar" id="mainSidebar" aria-label="Navegação principal">
+    <div class="sidebar-logo"><span class="sidebar-logo-text">payfy</span></div>
+    <div class="sidebar-nav">
+      <a class="sidebar-item disabled"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/></svg>Início</a>
+      <a class="sidebar-item disabled"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"/><path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"/></svg>Solicitações</a>
+      <a class="sidebar-item disabled"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4z"/><path fill-rule="evenodd" d="M18 9H2v5a2 2 0 002 2h12a2 2 0 002-2V9zM4 13a1 1 0 011-1h1a1 1 0 110 2H5a1 1 0 01-1-1zm5-1a1 1 0 100 2h1a1 1 0 100-2H9z" clip-rule="evenodd"/></svg>Cartões</a>
+      <a class="sidebar-item disabled"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"/></svg>Usuários</a>
+      <a href="despesas.html" class="sidebar-item"><svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 1a1 1 0 100 2 1 1 0 000-2z" clip-rule="evenodd"/></svg>Despesas</a>
+      <a class="sidebar-item disabled"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"/></svg>Passagens</a>
+      <a class="sidebar-item disabled"><svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5 5a3 3 0 015-2.236A3 3 0 0114.83 6H16a2 2 0 110 4h-5V9a1 1 0 10-2 0v1H4a2 2 0 110-4h1.17C5.06 5.687 5 5.35 5 5zm4 1V5a1 1 0 10-1 1h1zm2 0a1 1 0 10-1-1v1h1z" clip-rule="evenodd"/><path d="M9 11H3v5a2 2 0 002 2h4v-7zM11 18h4a2 2 0 002-2v-5h-6v7z"/></svg>Benefícios</a>
+      <a class="sidebar-item disabled"><svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3 3a1 1 0 000 2v8a2 2 0 002 2h2.586l-1.293 1.293a1 1 0 101.414 1.414L10 15.414l2.293 2.293a1 1 0 001.414-1.414L12.414 15H15a2 2 0 002-2V5a1 1 0 100-2H3zm11 4a1 1 0 10-2 0v4a1 1 0 102 0V7zm-3 1a1 1 0 10-2 0v3a1 1 0 102 0V8zM8 9a1 1 0 00-2 0v2a1 1 0 102 0V9z" clip-rule="evenodd"/></svg>Relatórios</a>
+      <div class="sidebar-separator"></div>
+      <a href="#" class="sidebar-item active"><svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd"/></svg>Configurações</a>
+    </div>
+  </nav>
+
+  <!-- SETTINGS SUB-SIDEBAR -->
+  <nav class="settings-sidebar" id="settingsSidebar" aria-label="Configurações">
+    <div class="settings-group-label">Organização</div>
+    <a class="settings-item disabled">Geral</a>
+    <a href="centros-custo.html" class="settings-item">Unidades</a>
+    <a href="times.html" class="settings-item">Times</a>
+    <a class="settings-item disabled">Categorias</a>
+    <a class="settings-item disabled">Projetos</a>
+    <a class="settings-item disabled">Permissões</a>
+    <div class="settings-separator"></div>
+    <div class="settings-group-label">Política de Gastos</div>
+    <a href="index.html" class="settings-item">Políticas de Gastos</a>
+    <a href="despesas-config.html" class="settings-item active">Despesas</a>
+    <a class="settings-item disabled">Categorias</a>
+    <a class="settings-item disabled">Reembolsos</a>
+    <a class="settings-item disabled">Níveis de Aprovação</a>
+    <a class="settings-item disabled">Regras de Gastos</a>
+    <a class="settings-item disabled">Regras de Bloqueio</a>
+    <div class="settings-separator"></div>
+    <div class="settings-group-label">Integrações</div>
+    <a class="settings-item disabled">ERP</a>
+    <div class="settings-separator"></div>
+    <div class="settings-group-label">Cartões</div>
+    <a class="settings-item disabled">Recarga em Lote</a>
+    <a class="settings-item disabled">Plástico</a>
+  </nav>
+
+  <!-- MAIN CONTENT -->
+  <main class="main-content">
+    <div class="content-wrapper">
+      <div class="page-header">
+        <div class="page-header-top">
+          <div>
+            <h1 class="page-title">Despesas</h1>
+            <div class="page-subtitle">Gerencie os campos customizáveis do detalhe de despesas</div>
+            <div class="page-counter" id="fieldCounter">3 de 5 campos criados</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cf-list" id="cfList"></div>
+
+      <button class="cf-add-btn" onclick="openFieldModal(-1)" id="addFieldBtn">+ Adicionar novo campo</button>
+    </div>
+  </main>
+</div>
+
+<!-- CREATE/EDIT FIELD MODAL -->
+<div class="modal-overlay" id="fieldModalOverlay">
+  <div class="modal" role="dialog" aria-labelledby="fieldModalTitle">
+    <div class="modal-header">
+      <div>
+        <div class="modal-title" id="fieldModalTitle">Novo campo customizável</div>
+        <div class="modal-subtitle" id="fieldModalSubtitle">Preencha as informações do campo</div>
+      </div>
+      <button class="modal-close" onclick="closeFieldModal()" aria-label="Fechar">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div class="cf-modal-field">
+        <label class="cf-modal-label" for="cfName">Nome do campo</label>
+        <input class="cf-modal-input" type="text" id="cfName" placeholder="Ex: codigo_projeto" oninput="updatePreview()">
+        <div class="cf-modal-hint">Identificador interno (sem espaços)</div>
+      </div>
+      <div class="cf-modal-field">
+        <label class="cf-modal-label" for="cfDisplayName">Nome de exibição</label>
+        <input class="cf-modal-input" type="text" id="cfDisplayName" placeholder="Ex: Código do Projeto" oninput="updatePreview()">
+      </div>
+      <div class="cf-modal-field">
+        <label class="cf-modal-label" for="cfType">Tipo</label>
+        <select class="cf-modal-select" id="cfType" onchange="onTypeChange(); updatePreview();">
+          <option value="">Selecione o tipo</option>
+          <option value="Texto">Texto</option>
+          <option value="Número">Número</option>
+          <option value="Moeda">Moeda</option>
+          <option value="Data">Data</option>
+          <option value="Select">Select</option>
+          <option value="Multi-select">Multi-select</option>
+          <option value="Checkbox">Checkbox</option>
+          <option value="URL">URL</option>
+          <option value="E-mail">E-mail</option>
+          <option value="Telefone">Telefone</option>
+          <option value="Textarea">Textarea</option>
+        </select>
+      </div>
+
+      <div class="cf-modal-field" id="optionsSection" style="display:none;">
+        <label class="cf-modal-label">Opções</label>
+        <div class="cf-options-list" id="optionsList"></div>
+        <button class="cf-option-add" onclick="addOption()">+ Adicionar opção</button>
+      </div>
+
+      <div class="cf-modal-field">
+        <label class="cf-modal-label" for="cfSupportText">Texto de suporte</label>
+        <input class="cf-modal-input" type="text" id="cfSupportText" placeholder="Texto explicativo abaixo do campo (opcional)" oninput="updatePreview()">
+      </div>
+
+      <div class="cf-checkbox-row">
+        <input type="checkbox" id="cfRequired" onchange="updatePreview()">
+        <label for="cfRequired">Campo obrigatório</label>
+      </div>
+
+      <div class="cf-toggle-section">
+        <div class="cf-toggle-header">
+          <div>
+            <div class="cf-toggle-title">Preenchimento Inteligente</div>
+            <div class="cf-toggle-desc">A IA sugere valores com base no histórico e contexto da despesa</div>
+          </div>
+          <label class="toggle">
+            <input type="checkbox" id="cfAIToggle" onchange="toggleAI()">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+        <div id="cfAIInstructions" style="display:none; margin-top:12px;">
+          <label class="cf-modal-label" for="cfAIText">Instruções para a IA</label>
+          <textarea class="cf-modal-input" id="cfAIText" rows="3" placeholder="Ex: Sugerir o código de projeto com base no fornecedor e categoria da despesa" style="min-height:80px;resize:vertical;"></textarea>
+        </div>
+      </div>
+
+      <div class="cf-preview" id="cfPreview">
+        <div class="cf-preview-label">Preview</div>
+        <div id="cfPreviewContent" style="color:var(--gray-400);font-size:13px;">Preencha os campos acima para ver o preview</div>
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn btn-secondary" onclick="closeFieldModal()">Cancelar</button>
+        <button class="btn btn-primary" id="cfSaveBtn" onclick="saveField()" disabled>Salvar campo</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- DELETE CONFIRMATION MODAL -->
+<div class="modal-overlay" id="deleteModalOverlay">
+  <div class="modal" role="dialog" aria-labelledby="deleteModalTitle" style="max-width:440px;">
+    <div class="modal-header">
+      <div>
+        <div class="modal-title" id="deleteModalTitle">Excluir campo</div>
+      </div>
+      <button class="modal-close" onclick="closeDeleteModal()" aria-label="Fechar">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div class="delete-warning">&#9888; Este campo pode estar sendo usado em regras de workflow. A exclusão removerá o campo de todas as despesas e condições associadas.</div>
+      <p style="font-size:14px;color:var(--gray-700);margin-bottom:var(--spacing-md);">Tem certeza que deseja excluir o campo <strong id="deleteFieldName"></strong>?</p>
+      <div class="modal-actions">
+        <button class="btn btn-secondary" onclick="closeDeleteModal()">Cancelar</button>
+        <button class="btn btn-danger" onclick="confirmDelete()">Excluir campo</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// Custom fields data
+var customFields = [
+  {
+    name: 'codigo_projeto',
+    displayName: 'Código do Projeto',
+    type: 'Texto',
+    supportText: 'Informe o código do projeto relacionado a esta despesa',
+    required: true,
+    aiEnabled: true,
+    aiInstructions: 'Sugerir o código de projeto com base no fornecedor e categoria da despesa',
+    options: []
+  },
+  {
+    name: 'centro_lucro',
+    displayName: 'Centro de Lucro',
+    type: 'Select',
+    supportText: 'Selecione o centro de lucro',
+    required: false,
+    aiEnabled: true,
+    aiInstructions: 'Sugerir centro de lucro com base no centro de custo do colaborador',
+    options: ['Operações', 'Marketing', 'Administrativo', 'Comercial', 'Tecnologia']
+  },
+  {
+    name: 'aprovacao_especial',
+    displayName: 'Aprovação Especial Necessária?',
+    type: 'Checkbox',
+    supportText: '',
+    required: true,
+    aiEnabled: false,
+    aiInstructions: '',
+    options: []
+  }
+];
+
+var maxFields = 5;
+var editingIndex = -1;
+var deletingIndex = -1;
+
+function renderFieldsList() {
+  var list = document.getElementById('cfList');
+  var html = '';
+  customFields.forEach(function(f, i) {
+    html += '<div class="cf-row">';
+    html += '<div class="cf-row-left">';
+    html += '<div class="cf-name">' + f.name + '</div>';
+    html += '<div class="cf-badges">';
+    html += '<span class="cf-badge cf-badge-type">' + f.type + '</span>';
+    html += '<span class="cf-badge ' + (f.required ? 'cf-badge-required' : 'cf-badge-optional') + '">' + (f.required ? 'Obrigatório' : 'Opcional') + '</span>';
+    if (f.aiEnabled) html += '<span class="cf-badge cf-badge-ai">\uD83E\uDD16 IA Ativa</span>';
+    html += '</div>';
+    html += '<div class="cf-display-name">' + f.displayName + '</div>';
+    if (f.supportText) html += '<div class="cf-support-text">' + f.supportText + '</div>';
+    html += '</div>';
+    html += '<div class="cf-actions">';
+    html += '<button class="cf-action-btn" onclick="openFieldModal(' + i + ')" aria-label="Editar">\u270F\uFE0F</button>';
+    html += '<button class="cf-action-btn" onclick="deleteField(' + i + ')" aria-label="Excluir">\uD83D\uDDD1</button>';
+    html += '</div>';
+    html += '</div>';
+  });
+  list.innerHTML = html;
+  document.getElementById('fieldCounter').textContent = customFields.length + ' de ' + maxFields + ' campos criados';
+  // Disable add button if at max
+  var addBtn = document.getElementById('addFieldBtn');
+  if (customFields.length >= maxFields) {
+    addBtn.style.opacity = '0.5';
+    addBtn.style.pointerEvents = 'none';
+  } else {
+    addBtn.style.opacity = '1';
+    addBtn.style.pointerEvents = 'auto';
+  }
+}
+
+function openFieldModal(index) {
+  editingIndex = index;
+  if (index >= 0) {
+    var f = customFields[index];
+    document.getElementById('fieldModalTitle').textContent = 'Editar campo';
+    document.getElementById('fieldModalSubtitle').textContent = 'Altere as informações do campo';
+    document.getElementById('cfName').value = f.name;
+    document.getElementById('cfDisplayName').value = f.displayName;
+    document.getElementById('cfType').value = f.type;
+    document.getElementById('cfSupportText').value = f.supportText;
+    document.getElementById('cfRequired').checked = f.required;
+    document.getElementById('cfAIToggle').checked = f.aiEnabled;
+    document.getElementById('cfAIText').value = f.aiInstructions;
+    document.getElementById('cfAIInstructions').style.display = f.aiEnabled ? 'block' : 'none';
+    renderOptions(f.options || []);
+    onTypeChange();
+  } else {
+    document.getElementById('fieldModalTitle').textContent = 'Novo campo customizável';
+    document.getElementById('fieldModalSubtitle').textContent = 'Preencha as informações do campo';
+    document.getElementById('cfName').value = '';
+    document.getElementById('cfDisplayName').value = '';
+    document.getElementById('cfType').value = '';
+    document.getElementById('cfSupportText').value = '';
+    document.getElementById('cfRequired').checked = false;
+    document.getElementById('cfAIToggle').checked = false;
+    document.getElementById('cfAIText').value = '';
+    document.getElementById('cfAIInstructions').style.display = 'none';
+    renderOptions([]);
+    onTypeChange();
+  }
+  updatePreview();
+  document.getElementById('fieldModalOverlay').classList.add('active');
+}
+
+function closeFieldModal() {
+  document.getElementById('fieldModalOverlay').classList.remove('active');
+  editingIndex = -1;
+}
+
+function toggleAI() {
+  var on = document.getElementById('cfAIToggle').checked;
+  document.getElementById('cfAIInstructions').style.display = on ? 'block' : 'none';
+}
+
+function onTypeChange() {
+  var type = document.getElementById('cfType').value;
+  var show = (type === 'Select' || type === 'Multi-select');
+  document.getElementById('optionsSection').style.display = show ? 'block' : 'none';
+  if (show && document.getElementById('optionsList').children.length === 0) {
+    addOption();
+    addOption();
+  }
+}
+
+function renderOptions(opts) {
+  var list = document.getElementById('optionsList');
+  list.innerHTML = '';
+  if (opts.length === 0) return;
+  opts.forEach(function(opt, i) {
+    var row = document.createElement('div');
+    row.className = 'cf-option-row';
+    row.innerHTML = '<input class="cf-option-input" type="text" value="' + opt + '" placeholder="Opção ' + (i + 1) + '">' +
+      '<button class="cf-option-remove" onclick="this.parentElement.remove()" aria-label="Remover opção">&times;</button>';
+    list.appendChild(row);
+  });
+}
+
+function addOption() {
+  var list = document.getElementById('optionsList');
+  var row = document.createElement('div');
+  row.className = 'cf-option-row';
+  var idx = list.children.length + 1;
+  row.innerHTML = '<input class="cf-option-input" type="text" placeholder="Opção ' + idx + '">' +
+    '<button class="cf-option-remove" onclick="this.parentElement.remove()" aria-label="Remover opção">&times;</button>';
+  list.appendChild(row);
+}
+
+function getOptionsFromForm() {
+  var inputs = document.querySelectorAll('#optionsList .cf-option-input');
+  var opts = [];
+  inputs.forEach(function(inp) {
+    if (inp.value.trim()) opts.push(inp.value.trim());
+  });
+  return opts;
+}
+
+function updatePreview() {
+  var name = document.getElementById('cfDisplayName').value || document.getElementById('cfName').value;
+  var type = document.getElementById('cfType').value;
+  var support = document.getElementById('cfSupportText').value;
+  var required = document.getElementById('cfRequired').checked;
+  var container = document.getElementById('cfPreviewContent');
+
+  // Enable/disable save button
+  var canSave = document.getElementById('cfName').value.trim() && document.getElementById('cfDisplayName').value.trim() && type;
+  document.getElementById('cfSaveBtn').disabled = !canSave;
+
+  if (!name && !type) {
+    container.innerHTML = '<span style="color:var(--gray-400);font-size:13px;">Preencha os campos acima para ver o preview</span>';
+    return;
+  }
+
+  var h = '';
+  h += '<div style="font-size:13px;font-weight:500;color:var(--gray-700);margin-bottom:4px;">' + (name || 'Nome do campo');
+  if (required) h += ' <span style="color:#DC2626;">*</span>';
+  h += '</div>';
+
+  if (type === 'Checkbox') {
+    h += '<div style="display:flex;align-items:center;gap:8px;"><input type="checkbox" disabled style="width:18px;height:18px;"> <span style="font-size:14px;color:var(--gray-500);">' + (name || 'Checkbox') + '</span></div>';
+  } else if (type === 'Textarea') {
+    h += '<div style="padding:8px 12px;border:1px solid var(--gray-200);border-radius:8px;min-height:60px;color:var(--gray-400);font-size:14px;">Texto longo...</div>';
+  } else if (type === 'Select' || type === 'Multi-select') {
+    h += '<div style="padding:8px 12px;border:1px solid var(--gray-200);border-radius:8px;font-size:14px;color:var(--gray-400);background:var(--white);">Selecione...</div>';
+  } else {
+    var placeholders = { 'Texto': 'Digite aqui...', 'Número': '0', 'Moeda': 'R$ 0,00', 'Data': 'dd/mm/aaaa', 'URL': 'https://', 'E-mail': 'email@exemplo.com', 'Telefone': '(00) 00000-0000' };
+    h += '<div style="padding:8px 12px;border:1px solid var(--gray-200);border-radius:8px;font-size:14px;color:var(--gray-400);background:var(--white);">' + (placeholders[type] || 'Digite aqui...') + '</div>';
+  }
+
+  if (support) h += '<div style="font-size:12px;color:var(--gray-400);margin-top:4px;font-style:italic;">' + support + '</div>';
+
+  container.innerHTML = h;
+}
+
+function saveField() {
+  var name = document.getElementById('cfName').value.trim();
+  var displayName = document.getElementById('cfDisplayName').value.trim();
+  var type = document.getElementById('cfType').value;
+  if (!name || !displayName || !type) return;
+
+  var field = {
+    name: name,
+    displayName: displayName,
+    type: type,
+    supportText: document.getElementById('cfSupportText').value.trim(),
+    required: document.getElementById('cfRequired').checked,
+    aiEnabled: document.getElementById('cfAIToggle').checked,
+    aiInstructions: document.getElementById('cfAIText').value.trim(),
+    options: (type === 'Select' || type === 'Multi-select') ? getOptionsFromForm() : []
+  };
+
+  if (editingIndex >= 0) {
+    customFields[editingIndex] = field;
+    showToast('Campo "' + displayName + '" atualizado.', 'success');
+  } else {
+    if (customFields.length >= maxFields) {
+      showToast('Limite de ' + maxFields + ' campos atingido.', 'warning');
+      return;
+    }
+    customFields.push(field);
+    showToast('Campo "' + displayName + '" criado.', 'success');
+  }
+
+  closeFieldModal();
+  renderFieldsList();
+}
+
+function deleteField(index) {
+  deletingIndex = index;
+  document.getElementById('deleteFieldName').textContent = customFields[index].displayName;
+  document.getElementById('deleteModalOverlay').classList.add('active');
+}
+
+function closeDeleteModal() {
+  document.getElementById('deleteModalOverlay').classList.remove('active');
+  deletingIndex = -1;
+}
+
+function confirmDelete() {
+  if (deletingIndex >= 0 && deletingIndex < customFields.length) {
+    var name = customFields[deletingIndex].displayName;
+    customFields.splice(deletingIndex, 1);
+    showToast('Campo "' + name + '" excluído.', 'success');
+    renderFieldsList();
+  }
+  closeDeleteModal();
+}
+
+function showToast(msg, type) {
+  var container = document.getElementById('toastContainer');
+  var toast = document.createElement('div');
+  toast.className = 'toast ' + (type || 'info');
+  toast.textContent = msg;
+  container.appendChild(toast);
+  setTimeout(function() { toast.remove(); }, 4000);
+}
+
+function toggleSidebars() {
+  document.getElementById('mainSidebar').classList.toggle('open');
+  document.getElementById('settingsSidebar').classList.toggle('open');
+  document.getElementById('sidebarBackdrop').classList.toggle('active');
+}
+function closeSidebars() {
+  document.getElementById('mainSidebar').classList.remove('open');
+  document.getElementById('settingsSidebar').classList.remove('open');
+  document.getElementById('sidebarBackdrop').classList.remove('active');
+}
+
+// Close modals on overlay click
+document.getElementById('fieldModalOverlay').addEventListener('click', function(e) {
+  if (e.target === this) closeFieldModal();
+});
+document.getElementById('deleteModalOverlay').addEventListener('click', function(e) {
+  if (e.target === this) closeDeleteModal();
+});
+
+// Close modals on Escape
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    closeFieldModal();
+    closeDeleteModal();
+  }
+});
+
+// Initial render
+renderFieldsList();
+</script>
+</body>
+</html>
